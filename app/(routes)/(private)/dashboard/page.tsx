@@ -10,8 +10,7 @@ import { StaggeredFade } from "@/app/(components)/(motion)/staggered-fade"
 import { useAuth } from "@/app/(contexts)/auth.context"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useProtectedGetBalance, useProtectedListCoupons, useProtectedListRedemptions, useProtectedListUsers, useProtectedRecentRedemptions, useUserRedemptions } from "@/hooks/use-protected-api-hooks"
-import { useListUsers } from "@/lib/generated"
+import { useProtectedGetBalance, useProtectedListCoupons, useProtectedListRedemptions, useProtectedListUsers, useProtectedRecentRedemptions } from "@/hooks/use-protected-api-hooks"
 import { format } from "date-fns"
 import {
   Activity,
@@ -35,12 +34,10 @@ const DashboardPage = () => {
   const redemptionsQuery = useProtectedListRedemptions()
   const recentRedemptionsQuery = useProtectedRecentRedemptions()
   const usersQuery = useProtectedListUsers()
-  const userRedemptionsQuery = useUserRedemptions()
-
-  const { data } = useListUsers()
 
   return (
     <StaggeredFade className="w-full" variant="page">
+
       {/* Header */}
       <Header title="Dashboard" />
       <StaggeredFade className="w-full p-3 space-y-3">
@@ -53,6 +50,7 @@ const DashboardPage = () => {
             description="Cupons disponíveis"
           />
 
+
           <BaseStats
             title="Resgates Hoje"
             Icon={Activity}
@@ -61,13 +59,16 @@ const DashboardPage = () => {
             description="Resgates realizados hoje"
           />
 
-          <BaseStats
-            title="Saldo Atual"
-            Icon={CreditCard}
-            value={balanceQuery.data?.data?.length}
-            loading={balanceQuery.isLoading}
-            description="Cupons disponíveis"
-          />
+          <NonStaffOnly>
+            <BaseStats
+              title="Saldo Atual"
+              Icon={CreditCard}
+              value={balanceQuery.data?.data?.length}
+              loading={balanceQuery.isLoading}
+              description="Cupons disponíveis"
+            />
+          </NonStaffOnly>
+
           <BaseStats title="Status da Conta" Icon={User} value={user?.is_active ? 'Ativo' : 'Inativo'} loading={false} description="Status da Conta" />
 
           {/* Staff-only stats - A query só executa se o usuário for staff */}

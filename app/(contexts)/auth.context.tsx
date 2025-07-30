@@ -73,7 +73,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (storedUser && storedTokens) {
       try {
-        setUser(JSON.parse(storedUser))
+        const parsedUser = JSON.parse(storedUser)
+        setUser(parsedUser)
         setTokens(JSON.parse(storedTokens))
       } catch {
         deleteCookie('auth_user')
