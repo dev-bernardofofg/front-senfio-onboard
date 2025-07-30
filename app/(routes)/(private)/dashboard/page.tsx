@@ -40,7 +40,7 @@ const DashboardPage = () => {
     <StaggeredFade className="w-full" variant="page">
       {/* Header */}
       <Header title="Dashboard" />
-      <StaggeredFade className="w-full p-3 space-y-3">
+      <StaggeredFade className="w-full p-3 space-y-3" variant="content">
         <StaggeredFade className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <BaseStats
             title="Cupons Ativos"
@@ -85,12 +85,37 @@ const DashboardPage = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="gap-3">
-          <TabsList>
-            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-            <TabsTrigger value="coupons">Cupons</TabsTrigger>
-            <TabsTrigger value="redemptions">Resgates</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:grid-cols-3 bg-muted/50 p-1 rounded-lg custom-tabs">
+            <TabsTrigger
+              value="overview"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+            >
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Visão Geral</span>
+              <span className="sm:hidden">Geral</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="coupons"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+            >
+              <Gift className="h-4 w-4" />
+              <span className="hidden sm:inline">Cupons</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="redemptions"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+            >
+              <Activity className="h-4 w-4" />
+              <span className="hidden sm:inline">Resgates</span>
+            </TabsTrigger>
             <StaffOnly>
-              <TabsTrigger value="admin">Administração</TabsTrigger>
+              <TabsTrigger
+                value="admin"
+                className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+              >
+                <Shield className="h-4 w-4" />
+                <span className="hidden sm:inline">Admin</span>
+              </TabsTrigger>
             </StaffOnly>
           </TabsList>
 
@@ -158,10 +183,7 @@ const DashboardPage = () => {
                       ))}
                     </StaggeredFade>
                   ) : (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Gift className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Nenhum cupom encontrado</p>
-                    </div>
+                    <BaseEmptyData Icon={Gift} title="Nenhum cupom encontrado" />
                   )}
                 </Suspense>
               </BaseCard>
@@ -189,10 +211,7 @@ const DashboardPage = () => {
                         ))}
                       </StaggeredFade>
                     ) : (
-                      <div className="text-center py-8 text-muted-foreground">
-                        <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                        <p>Nenhum resgate encontrado</p>
-                      </div>
+                      <BaseEmptyData Icon={Activity} title="Nenhum resgate encontrado" />
                     )}
                   </Suspense>
                 </div>

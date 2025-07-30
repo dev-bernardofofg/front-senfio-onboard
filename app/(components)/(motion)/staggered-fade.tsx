@@ -7,7 +7,7 @@ interface StaggeredFadeProps {
   staggerDelay?: number;
   duration?: number;
   initialDelay?: number;
-  variant?: "default" | "wrapper" | "page" | "slide-up" | "slide-down" | "scale" | "cards";
+  variant?: "default" | "wrapper" | "page" | "slide-up" | "slide-down" | "scale" | "cards" | "content" | "contentWithPagination";
   isLoading?: boolean;
   loadingContent?: ReactNode;
 }
@@ -26,7 +26,19 @@ const variants = {
     transition: { duration: 0.4, ease: easeOut }
   },
   page: {
-    containerClass: "overflow-hidden max-h-[calc(100vh-1rem)] h-screen p-3 bg-card rounded-lg border border-border",
+    containerClass: "overflow-hidden max-h-[calc(100dvh-1rem)] h-screen p-3 bg-card rounded-lg border border-border",
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, ease: easeOut }
+  },
+  content: {
+    containerClass: "overflow-y-auto max-h-[calc(100dvh-6rem)] h-screen",
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, ease: easeOut }
+  },
+  contentWithPagination: {
+    containerClass: "overflow-y-auto max-h-[calc(100dvh-13rem)] h-screen",
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.5, ease: easeOut }

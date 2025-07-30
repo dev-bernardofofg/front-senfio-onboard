@@ -313,4 +313,35 @@
   .dark .thin-scrollbar {
     scrollbar-color: gray transparent;
   }
+
+  /* Custom Tabs Styles */
+  .custom-tabs {
+    @apply bg-muted/30 backdrop-blur-sm border border-border/50;
+  }
+
+  .custom-tabs [data-state="active"] {
+    @apply bg-background/80 backdrop-blur-sm shadow-sm border border-border/50;
+  }
+
+  .custom-tabs [data-state="inactive"] {
+    @apply hover:bg-muted/50 transition-colors;
+  }
+
+  /* Tab trigger animations */
+  .tab-trigger {
+    @apply relative overflow-hidden;
+  }
+
+  .tab-trigger::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/5 opacity-0 transition-opacity duration-200;
+  }
+
+  .tab-trigger:hover::before {
+    @apply opacity-100;
+  }
+
+  .tab-trigger[data-state="active"]::before {
+    @apply opacity-100;
+  }
 }
