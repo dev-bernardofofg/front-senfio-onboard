@@ -24,11 +24,11 @@ export const SignInForm = () => {
   const { mutateAsync: login, isPending: isLoginPending } = useLogin({
     mutation: {
       onSuccess: ({ data: tokenData }: { data: Login200 }) => {
-        setTokensOnly({
+        const tokens = {
           access: tokenData.access,
           refresh: tokenData.refresh,
-        })
-        router.push('/dashboard')
+        }
+        setTokensOnly(tokens)
       },
       onError: (error: any) => {
         toast.error(error.data.message)

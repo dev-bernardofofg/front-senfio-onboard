@@ -1,27 +1,12 @@
 import { NonStaffOnly, StaffOnly } from '@/app/(components)/(base)/(authorization)/authorized-content'
+import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Coupon, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
 import { useQueryClient } from '@tanstack/react-query'
-import { format } from 'date-fns'
 import { Edit, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-
-// Função segura para formatar datas
-const formatDate = (dateString: string | null | undefined): string => {
-  if (!dateString) return 'Data não disponível'
-
-  try {
-    const date = new Date(dateString)
-    if (isNaN(date.getTime())) {
-      return 'Data inválida'
-    }
-    return format(date, 'dd/MM/yyyy')
-  } catch (error) {
-    return 'Data inválida'
-  }
-}
 
 interface CupomCardProps {
   coupon: Coupon
@@ -106,7 +91,7 @@ export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) =>
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Criado em:</span>
             <span className="font-medium">
-              {formatDate(coupon.created_at)}
+              {FN_UTILS_DATE.formatDate(coupon.created_at)}
             </span>
           </div>
 

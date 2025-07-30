@@ -29,7 +29,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { BaseButton } from "../(clickable)/base-button";
 
 type BaseDatePickerProps<T extends FieldValues> = {
   control?: Control<T>;
@@ -46,6 +45,7 @@ type BaseDatePickerProps<T extends FieldValues> = {
   isDateAvaliable?: (date: Date) => boolean;
   isDateDisabled?: string;
   isDisable?: boolean;
+  readOnly?: boolean;
 };
 
 export function BaseDatePicker<T extends FieldValues>({
@@ -63,6 +63,7 @@ export function BaseDatePicker<T extends FieldValues>({
   isDateAvaliable,
   isDateDisabled,
   isDisable = false,
+  readOnly = false,
 }: BaseDatePickerProps<T>) {
   const methods = useFormContext<T>();
   const finalControl = control || methods.control;
@@ -111,23 +112,33 @@ export function BaseDatePicker<T extends FieldValues>({
           <FormControl>
             <Popover>
               <PopoverTrigger asChild>
-                <BaseButton
-                  variant="outline"
+                <motion.div
                   className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !field.value && "text-muted-foreground",
+                    "relative group rounded-md border focus-within:border-primary focus-within:ring-0.5 focus-within:ring-primary focus-within:outline-hidden",
                   )}
-                  disabled={isDisable && !isDateDisabled}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                  }}
                 >
-                  <CalendarIcon className="mr-2 size-4" />
-                  {field.value ? (
-                    format(parseISO(field.value), "dd 'de' MMMM 'de' yyyy", {
-                      locale: ptBR,
-                    })
-                  ) : (
-                    <span>{placeholder}</span>
-                  )}
-                </BaseButton>
+                  <div
+                    className={cn(
+                      "h-10 w-full bg-transparent dark:bg-transparent px-3 py-2 text-base placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 flex items-center justify-start text-left font-normal border-none outline-hidden ring-0 focus:ring-0 focus-visible:ring-0 focus-within:ring-0 focus:border-none focus-within:border-none focus-visible:border-none active:border-none active:ring-0 active:outline-hidden focus:outline-hidden focus-visible:outline-hidden",
+                      !field.value && "text-muted-foreground",
+                      (isDisable && !isDateDisabled || readOnly) && "opacity-50 cursor-not-allowed"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 size-4 text-muted-foreground" />
+                    {field.value ? (
+                      format(parseISO(field.value), "dd 'de' MMMM 'de' yyyy", {
+                        locale: ptBR,
+                      })
+                    ) : (
+                      <span>{placeholder}</span>
+                    )}
+                  </div>
+                </motion.div>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <div className="flex items-center justify-between border-b p-3">

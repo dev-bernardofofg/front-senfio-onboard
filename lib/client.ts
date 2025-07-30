@@ -70,8 +70,6 @@ class ApiClient {
         throw new Error("No refresh token available");
       }
 
-      console.log("tokensStr", tokensStr);
-
       const tokens = JSON.parse(tokensStr);
       if (!tokens.refresh) {
         throw new Error("No refresh token available");

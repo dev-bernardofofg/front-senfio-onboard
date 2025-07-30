@@ -5,7 +5,6 @@ import { FN_UTILS_STRING } from "@/app/(resources)/(helpers)/string";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { useAuthorization } from "@/hooks/use-authorization";
 import { ChevronUp, LogOut, Moon, Sun, User } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -13,7 +12,6 @@ import { RoleInfo } from "../../(base)/(authorization)/role-based-content";
 
 export const SidebarProfile = () => {
   const { user, signOut } = useAuth();
-  const { isStaff } = useAuthorization();
   const { setTheme, resolvedTheme, theme } = useTheme();
   const toggleTheme = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");

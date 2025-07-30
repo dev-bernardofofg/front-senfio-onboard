@@ -14,7 +14,6 @@ type Tokens = {
 interface AuthContextProps {
   user: User | null
   tokens: Tokens | null
-  isLoading: boolean
   setAuth: (user: Me200, tokens: Tokens) => void
   setTokensOnly: (tokens: Tokens) => void
   updateUser: (userData: User) => void
@@ -26,13 +25,12 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [tokens, setTokens] = useState<Tokens | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  const { data: meData, refetch: refetchMe } = useMe({
+  const { data: meData } = useMe({
     query: {
       enabled: !!tokens?.access && !user,
-    }
+    },
   })
 
   const logoutMutation = useLogout({
@@ -55,34 +53,29 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   })
 
   useEffect(() => {
-    if (tokens?.access && !user) {
-      refetchMe()
-    }
-  }, [tokens, user, refetchMe])
-
-  useEffect(() => {
-    if (meData?.data) {
-      setUser(meData.data)
-      setCookie('auth_user', JSON.stringify(meData.data))
-    }
-  }, [meData])
-
-  useEffect(() => {
     const storedUser = getCookie('auth_user')
     const storedTokens = getCookie('tokens')
 
     if (storedUser && storedTokens) {
       try {
         const parsedUser = JSON.parse(storedUser)
+        const parsedTokens = JSON.parse(storedTokens)
         setUser(parsedUser)
-        setTokens(JSON.parse(storedTokens))
+        setTokens(parsedTokens)
       } catch {
         deleteCookie('auth_user')
         deleteCookie('tokens')
       }
     }
-    setIsLoading(false)
   }, [])
+
+  useEffect(() => {
+    if (meData?.data) {
+      setUser(meData.data)
+      setCookie('auth_user', JSON.stringify(meData.data))
+      router.push('/dashboard')
+    }
+  }, [tokens])
 
   const setAuth = (user: Me200, tokens: Tokens) => {
     setUser(user)
@@ -114,7 +107,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, tokens, isLoading, setAuth, setTokensOnly, updateUser, signOut }}>
+    <AuthContext.Provider value={{ user, tokens, setAuth, setTokensOnly, updateUser, signOut }}>
       {children}
     </AuthContext.Provider>
   )
