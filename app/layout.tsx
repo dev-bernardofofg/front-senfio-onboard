@@ -17,10 +17,11 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`antialiased`}
+        suppressHydrationWarning
       >
         <Providers>
           {children}
-          <Toaster />
+          <Toaster richColors position="top-center" />
         </Providers>
       </body>
     </html>

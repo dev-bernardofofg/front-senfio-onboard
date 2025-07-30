@@ -11,17 +11,27 @@ import {
 import { BarChart3, Gift, Home, Settings, Ticket, Users } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { SidebarGroupCustom } from "./sidebar-group";
 import { SidebarItem } from "./sidebar-item";
 import { SidebarProfile } from "./sidebar-profile";
 
 export const BaseSidebar = () => {
   const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Evitar hidratação inconsistente usando um logo padrão até o cliente estar pronto
+  const logoSrc = mounted && theme === "dark" ? "/logo-s3-light.svg" : "/logo-s3-dark.svg"
+
   return (
     <Sidebar variant="floating">
       <SidebarHeader className="pt-4">
         <div className="relative w-full h-12">
-          <Image src={theme === "dark" ? "/logo-s3-light.svg" : "/logo-s3-dark.svg"} alt="Senfio" fill className="object-contain" />
+          <Image src={logoSrc} alt="Senfio" fill className="object-contain" />
         </div>
       </SidebarHeader>
 

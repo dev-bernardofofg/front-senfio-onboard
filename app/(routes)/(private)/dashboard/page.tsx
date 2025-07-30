@@ -9,6 +9,7 @@ import { Header } from "@/app/(components)/(layout)/header"
 import { StaggeredFade } from "@/app/(components)/(motion)/staggered-fade"
 import { useAuth } from "@/app/(contexts)/auth.context"
 import { FN_UTILS_DATE } from "@/app/(resources)/(helpers)/date"
+import { FN_UTILS_NUMBER } from "@/app/(resources)/(helpers)/number"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useGetBalance, useListCoupons, useListRedemptions, useListUsers, useRecentRedemptions } from "@/lib/generated"
@@ -36,6 +37,7 @@ const DashboardPage = () => {
   const recentRedemptionsQuery = useRecentRedemptions()
   const usersQuery = useListUsers()
 
+  const totalCouponsAvaliable = FN_UTILS_NUMBER.sum_all_coupons_avaliable(couponsQuery.data?.data?.results ?? [])
   return (
     <StaggeredFade className="w-full" variant="page">
       {/* Header */}
@@ -52,20 +54,20 @@ const DashboardPage = () => {
 
 
           <BaseStats
-            title="Resgates Hoje"
+            title="Total de Resgates"
             Icon={Activity}
-            value={recentRedemptionsQuery.data?.data?.length}
-            loading={recentRedemptionsQuery.isLoading}
-            description="Resgates realizados hoje"
+            value={redemptionsQuery.data?.data?.count}
+            loading={redemptionsQuery.isLoading}
+            description="Resgates realizados"
           />
 
           <NonStaffOnly>
             <BaseStats
-              title="Saldo Atual"
+              title="Cupons Disponíveis"
               Icon={CreditCard}
-              value={balanceQuery.data?.data?.length}
-              loading={balanceQuery.isLoading}
-              description="Cupons disponíveis"
+              value={totalCouponsAvaliable - (redemptionsQuery.data?.data?.count ?? 0)}
+              loading={couponsQuery.isLoading}
+              description="Cupons disponíveis para resgate"
             />
           </NonStaffOnly>
 

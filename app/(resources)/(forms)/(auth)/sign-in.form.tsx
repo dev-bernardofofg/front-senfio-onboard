@@ -7,14 +7,12 @@ import { useAuth } from '@/app/(contexts)/auth.context'
 import { Form } from '@/components/ui/form'
 import { Login200, useLogin } from '@/lib/generated'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { SignInDefaultValues, SignInSchema, SignInSchemaType } from './sign-in.schema'
 
 export const SignInForm = () => {
-  const router = useRouter()
-  const { setAuth, setTokensOnly } = useAuth()
+  const { setTokensOnly } = useAuth()
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),

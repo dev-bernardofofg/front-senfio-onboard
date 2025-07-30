@@ -3,20 +3,31 @@ import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Coupon, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
+import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, recentRedemptionsQueryKey, Redemption, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 interface CupomCardProps {
   coupon: Coupon
-  recentRedemptions?: any[]
+  redemptions?: Redemption[]
 }
 
-export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) => {
+export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
   const queryClient = useQueryClient()
 
   const isAvailable = coupon.available
+
+  // Verificar se o usuário já atingiu o limite máximo de resgates para este cupom
+  const userRedemptionsForThisCoupon = redemptions.filter(
+    redemption => redemption.coupon.id === coupon.id
+  )
+
+  const hasReachedMaxRedemptions = coupon.max_redemptions
+    ? userRedemptionsForThisCoupon.length >= coupon.max_redemptions
+    : false
+
+  const canRedeem = isAvailable && !hasReachedMaxRedemptions
 
   const { mutate: deleteCoupon, isPending } = useDeleteCoupon({
     mutation: {
@@ -37,22 +48,27 @@ export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) =>
     mutation: {
       onSuccess: () => {
         toast.success('Cupom resgatado com sucesso')
+
         // Invalidar todas as queries relacionadas
         queryClient.invalidateQueries({
-          queryKey: [{ url: '/api/v1/coupons' }]
+          queryKey: [{ url: listCouponsQueryKey }]
         })
         queryClient.invalidateQueries({
-          queryKey: [{ url: '/api/v1/redemptions' }]
+          queryKey: [{ url: listRedemptionsQueryKey }]
         })
         queryClient.invalidateQueries({
-          queryKey: [{ url: '/api/v1/coupons/recent-redemptions' }]
+          queryKey: [{ url: recentRedemptionsQueryKey }]
         })
-        // Forçar refetch das queries ativas
+
+        // Forçar refetch imediato das queries ativas
         queryClient.refetchQueries({
-          queryKey: [{ url: '/api/v1/coupons' }]
+          queryKey: [{ url: listCouponsQueryKey }]
         })
         queryClient.refetchQueries({
-          queryKey: [{ url: '/api/v1/coupons/recent-redemptions' }]
+          queryKey: [{ url: listRedemptionsQueryKey }]
+        })
+        queryClient.refetchQueries({
+          queryKey: [{ url: recentRedemptionsQueryKey }]
         })
       },
       onError: (error: any) => {
@@ -74,10 +90,10 @@ export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) =>
             </CardDescription>
           </div>
           <Badge
-            variant={isAvailable ? "default" : "secondary"}
+            variant={canRedeem ? "default" : "secondary"}
             className="flex-shrink-0 text-xs"
           >
-            {isAvailable ? "Disponível" : "Indisponível"}
+            {canRedeem ? "Disponível" : hasReachedMaxRedemptions ? "Limite Atingido" : "Indisponível"}
           </Badge>
         </div>
       </CardHeader>
@@ -86,6 +102,13 @@ export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) =>
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Máximo de resgates:</span>
             <span className="font-medium">{coupon.max_redemptions || 'Ilimitado'}</span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <span className="text-muted-foreground">Seus resgates:</span>
+            <span className="font-medium">
+              {userRedemptionsForThisCoupon.length} / {coupon.max_redemptions || '∞'}
+            </span>
           </div>
 
           <div className="flex justify-between items-center">
@@ -112,11 +135,11 @@ export const CupomCard = ({ coupon, recentRedemptions = [] }: CupomCardProps) =>
               <Button
                 size="sm"
                 variant="default"
-                disabled={!isAvailable || isRedeeming}
+                disabled={!canRedeem || isRedeeming}
                 className="text-xs h-7 px-2"
                 onClick={() => redeemCoupon({ data: { coupon: coupon.id } })}
               >
-                {isRedeeming ? 'Resgatando...' : 'Resgatar'}
+                {isRedeeming ? 'Resgatando...' : hasReachedMaxRedemptions ? 'Limite Atingido' : 'Resgatar'}
               </Button>
             </NonStaffOnly>
           </div>

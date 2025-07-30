@@ -21,9 +21,9 @@ export const Header = ({ actions, title }: HeaderProps) => {
           <h1 className="base:text-base md:text-lg font-bold text-slate-950 dark:text-white">{title}</h1>
         </div>
         {actions && (
-          <div className="flex items-center gap-3 w-fit">
+          <div className="flex items-center gap-3 justify-end">
             {actions.map((action, index) => (
-              <div key={index}>
+              <div className="w-full" key={index}>
                 {action}
               </div>
             ))}
