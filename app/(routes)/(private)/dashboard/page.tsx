@@ -38,10 +38,9 @@ const DashboardPage = () => {
 
   return (
     <StaggeredFade className="w-full" variant="page">
-      {/* Header */}
       <Header title="Dashboard" />
       <StaggeredFade className="w-full p-3 space-y-3" variant="content">
-        <StaggeredFade className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StaggeredFade className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           <BaseStats
             title="Cupons Ativos"
             Icon={Gift}
@@ -83,37 +82,36 @@ const DashboardPage = () => {
           </StaffOnly>
         </StaggeredFade>
 
-        {/* Main Content */}
         <Tabs defaultValue="overview" className="gap-3">
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto lg:grid-cols-3 bg-muted/50 p-1 rounded-lg custom-tabs">
+          <TabsList className="grid grid-cols-3 lg:w-auto lg:grid-cols-3 bg-muted/50 p-1 rounded-lg">
             <TabsTrigger
               value="overview"
-              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200"
             >
-              <BarChart3 className="h-4 w-4" />
+              <BarChart3 className="size-4" />
               <span className="hidden sm:inline">Visão Geral</span>
               <span className="sm:hidden">Geral</span>
             </TabsTrigger>
             <TabsTrigger
               value="coupons"
-              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200"
             >
-              <Gift className="h-4 w-4" />
+              <Gift className="size-4" />
               <span className="hidden sm:inline">Cupons</span>
             </TabsTrigger>
             <TabsTrigger
               value="redemptions"
-              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+              className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200"
             >
-              <Activity className="h-4 w-4" />
+              <Activity className="size-4" />
               <span className="hidden sm:inline">Resgates</span>
             </TabsTrigger>
             <StaffOnly>
               <TabsTrigger
                 value="admin"
-                className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200 tab-trigger"
+                className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all duration-200"
               >
-                <Shield className="h-4 w-4" />
+                <Shield className="size-4" />
                 <span className="hidden sm:inline">Admin</span>
               </TabsTrigger>
             </StaffOnly>
@@ -193,7 +191,6 @@ const DashboardPage = () => {
           <TabsContent value="redemptions" className="space-y-3">
             <StaggeredFade>
               <BaseCard title="Histórico de Resgates" Icon={Activity} description="Todos os resgates realizados" footer={<BaseButton variant="outline" href="/my-coupons">Ver todos</BaseButton>}>
-
                 <div className="space-y-3">
                   <Suspense fallback={<div className="flex items-center justify-center p-4"><RefreshCw className="h-6 w-6 animate-spin" /></div>}>
                     {redemptionsQuery.data?.data?.results?.length ? (
@@ -203,7 +200,7 @@ const DashboardPage = () => {
                             <div>
                               <p className="font-medium">{redemption.coupon?.code}</p>
                               <p className="text-sm text-muted-foreground">
-                                {FN_UTILS_DATE.formatDate(redemption.created_at)}
+                                {FN_UTILS_DATE.formatDate(redemption.redeemed_at)}
                               </p>
                             </div>
                             <Badge variant="outline">Resgatado</Badge>
