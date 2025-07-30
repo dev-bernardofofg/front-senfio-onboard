@@ -8,10 +8,10 @@ import { BaseStats } from "@/app/(components)/(base)/(show-data)/base-stats"
 import { Header } from "@/app/(components)/(layout)/header"
 import { StaggeredFade } from "@/app/(components)/(motion)/staggered-fade"
 import { useAuth } from "@/app/(contexts)/auth.context"
+import { FN_UTILS_DATE } from "@/app/(resources)/(helpers)/date"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useProtectedGetBalance, useProtectedListCoupons, useProtectedListRedemptions, useProtectedListUsers, useProtectedRecentRedemptions } from "@/hooks/use-protected-api-hooks"
-import { format } from "date-fns"
+import { useGetBalance, useListCoupons, useListRedemptions, useListUsers, useRecentRedemptions } from "@/lib/generated"
 import {
   Activity,
   BarChart3,
@@ -26,18 +26,18 @@ import {
 } from "lucide-react"
 import { Suspense } from "react"
 
+
 const DashboardPage = () => {
   const { user } = useAuth()
 
-  const balanceQuery = useProtectedGetBalance()
-  const couponsQuery = useProtectedListCoupons()
-  const redemptionsQuery = useProtectedListRedemptions()
-  const recentRedemptionsQuery = useProtectedRecentRedemptions()
-  const usersQuery = useProtectedListUsers()
+  const balanceQuery = useGetBalance()
+  const couponsQuery = useListCoupons()
+  const redemptionsQuery = useListRedemptions()
+  const recentRedemptionsQuery = useRecentRedemptions()
+  const usersQuery = useListUsers()
 
   return (
     <StaggeredFade className="w-full" variant="page">
-
       {/* Header */}
       <Header title="Dashboard" />
       <StaggeredFade className="w-full p-3 space-y-3">
@@ -96,23 +96,23 @@ const DashboardPage = () => {
 
           <TabsContent value="overview" className="space-y-3">
             <StaggeredFade className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              <BaseCard title="Resgates Recentes" Icon={Activity} description="Últimos resgates realizados" footer={<BaseButton variant="outline">Ver todos</BaseButton>}>
+              <BaseCard title="Resgates Recentes" Icon={Activity} description="Últimos resgates realizados" footer={<BaseButton variant="outline" href="/my-coupons">Ver todos</BaseButton>}>
 
                 <Suspense fallback={<div className="flex items-center justify-center p-4"><RefreshCw className="h-6 w-6 animate-spin" /></div>}>
                   {recentRedemptionsQuery.data?.data?.length ? (
-                    <div className="space-y-3">
+                    <StaggeredFade className="space-y-3">
                       {recentRedemptionsQuery.data.data.slice(0, 5).map((redemption: any) => (
                         <div key={redemption.id} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                           <div>
                             <p className="font-medium">{redemption.coupon?.code}</p>
                             <p className="text-sm text-muted-foreground">
-                              {format(new Date(redemption.created_at), 'dd/MM/yyyy')}
+                              {FN_UTILS_DATE.formatDate(redemption.redeemed_at)}
                             </p>
                           </div>
                           <Badge variant="outline">Resgatado</Badge>
                         </div>
                       ))}
-                    </div>
+                    </StaggeredFade>
                   ) : (
                     <BaseEmptyData Icon={Activity} title="Nenhum resgate recente" />
                   )}
@@ -122,7 +122,7 @@ const DashboardPage = () => {
               {/* Quick Actions */}
               <BaseCard title="Ações Rápidas" Icon={BarChart3} description="Acesse as principais funcionalidades">
                 <div className="space-y-3">
-                  <BaseButton variant="outline" Icon={Gift} href="/cupons">Gerenciar Cupons</BaseButton>
+                  <BaseButton variant="outline" Icon={Gift} href="/coupons">Gerenciar Cupons</BaseButton>
 
                   <StaffOnly>
                     <BaseButton variant="outline" Icon={TrendingUp} href="/reports">Ver Relatórios</BaseButton>
@@ -131,7 +131,7 @@ const DashboardPage = () => {
                   </StaffOnly>
 
                   <NonStaffOnly>
-                    <BaseButton variant="outline" Icon={Activity} href="/my-redemptions">Meus Resgates</BaseButton>
+                    <BaseButton variant="outline" Icon={Activity} href="/my-coupons">Meus Resgates</BaseButton>
                   </NonStaffOnly>
                 </div>
               </BaseCard>
@@ -140,11 +140,11 @@ const DashboardPage = () => {
 
           <TabsContent value="coupons" className="space-y-3">
             <StaggeredFade>
-              <BaseCard title="Cupons Disponíveis" Icon={Gift} description="Lista dos cupons mais recentes" footer={<BaseButton variant="outline" href="/cupons">Ver todos</BaseButton>}>
+              <BaseCard title="Cupons Disponíveis" Icon={Gift} description="Lista dos cupons mais recentes" footer={<BaseButton variant="outline" href="/coupons">Ver todos</BaseButton>}>
 
                 <Suspense fallback={<div className="flex items-center justify-center p-4"><RefreshCw className="h-6 w-6 animate-spin" /></div>}>
                   {couponsQuery.data?.data?.results?.length ? (
-                    <div className="space-y-3">
+                    <StaggeredFade className="space-y-3">
                       {couponsQuery.data.data.results.slice(0, 5).map((coupon: any) => (
                         <div key={coupon.id} className="flex items-center justify-between p-3 rounded-lg border">
                           <div>
@@ -156,7 +156,7 @@ const DashboardPage = () => {
                           </Badge>
                         </div>
                       ))}
-                    </div>
+                    </StaggeredFade>
                   ) : (
                     <div className="text-center py-8 text-muted-foreground">
                       <Gift className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -170,24 +170,24 @@ const DashboardPage = () => {
 
           <TabsContent value="redemptions" className="space-y-3">
             <StaggeredFade>
-              <BaseCard title="Histórico de Resgates" Icon={Activity} description="Todos os resgates realizados" footer={<BaseButton variant="outline">Ver todos</BaseButton>}>
+              <BaseCard title="Histórico de Resgates" Icon={Activity} description="Todos os resgates realizados" footer={<BaseButton variant="outline" href="/my-coupons">Ver todos</BaseButton>}>
 
                 <div className="space-y-3">
                   <Suspense fallback={<div className="flex items-center justify-center p-4"><RefreshCw className="h-6 w-6 animate-spin" /></div>}>
                     {redemptionsQuery.data?.data?.results?.length ? (
-                      <div className="space-y-3">
-                        {redemptionsQuery.data.data.results.slice(0, 10).map((redemption: any) => (
+                      <StaggeredFade className="space-y-3">
+                        {redemptionsQuery.data.data.results.slice(0, 5).map((redemption: any) => (
                           <div key={redemption.id} className="flex items-center justify-between p-3 rounded-lg border">
                             <div>
                               <p className="font-medium">{redemption.coupon?.code}</p>
                               <p className="text-sm text-muted-foreground">
-                                {new Date(redemption.created_at).toLocaleDateString('pt-BR')}
+                                {FN_UTILS_DATE.formatDate(redemption.created_at)}
                               </p>
                             </div>
                             <Badge variant="outline">Resgatado</Badge>
                           </div>
                         ))}
-                      </div>
+                      </StaggeredFade>
                     ) : (
                       <div className="text-center py-8 text-muted-foreground">
                         <Activity className="h-12 w-12 mx-auto mb-4 opacity-50" />

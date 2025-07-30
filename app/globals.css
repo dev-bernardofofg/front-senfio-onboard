@@ -166,3 +166,151 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Custom Scrollbar Styles */
+@layer components {
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
+  }
+
+  /* Dark mode adjustments */
+  .dark ::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: gray;
+    border-radius: 4px;
+  }
+
+  .dark * {
+    scrollbar-color: gray transparent;
+  }
+
+  /* Custom scrollbar for specific containers */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 3px;
+    transition: background-color 0.2s ease;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
+
+  /* Dark mode for custom scrollbar */
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: gray;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: gray transparent;
+  }
+
+  /* Thin scrollbar for small containers */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 2px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
+
+  /* Dark mode for thin scrollbar */
+  .dark .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: gray;
+  }
+
+  .dark .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: gray;
+  }
+
+  .dark .thin-scrollbar {
+    scrollbar-color: gray transparent;
+  }
+}

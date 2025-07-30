@@ -1,13 +1,14 @@
-'use client'
-
 import { BaseSidebar } from "@/app/(components)/(layout)/(sidebar)/sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
+import { requireAuth } from "@/lib/auth"
 
 interface PrivateLayoutProps {
   children: React.ReactNode
 }
 
-const PrivateLayout = ({ children }: PrivateLayoutProps) => {
+export default async function PrivateLayout({ children }: PrivateLayoutProps) {
+  await requireAuth()
+
   return (
     <SidebarProvider>
       <BaseSidebar />
@@ -17,5 +18,3 @@ const PrivateLayout = ({ children }: PrivateLayoutProps) => {
     </SidebarProvider>
   )
 }
-
-export default PrivateLayout

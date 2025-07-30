@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧭 Frontend Challenge - Next.js + TypeScript
 
-## Getting Started
+Este projeto foi desenvolvido como parte de um processo seletivo para a vaga de **Desenvolvedor(a) Frontend Pleno**. O objetivo é demonstrar domínio técnico nas tecnologias exigidas, com foco em boas práticas, performance, consistência visual e reutilização de componentes.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✅ Tecnologias e Ferramentas Utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js (App Router)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+  - Rotas protegidas com autenticação via JWT
+  - Implementação de refresh token
+  - Uso de **Server Components**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **TypeScript**
 
-## Learn More
+  - Tipagem estática para maior segurança e legibilidade do código
+  - Validação com **Zod** + `react-hook-form`
 
-To learn more about Next.js, take a look at the following resources:
+- **React Query**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - Exemplos: Cache, background fetching, controle de estados e paginação.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Tailwind CSS**
 
-## Deploy on Vercel
+  - Design responsivo com utilitários
+  - Componentes reutilizáveis como botões, modais, badges
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Docker + Docker Compose**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  - Ambiente de desenvolvimento containerizado
+  - Suporte completo ao comando `docker compose up`
+
+- **CI com GitHub Actions**
+
+  - Pipeline com etapas de lint, format, testes e build
+
+- **Kubb**
+  - Geração automática de hooks e models a partir do schema OpenAPI (`schema.yaml`)
+
+---
+
+## 🚀 Como Rodar o backend API
+
+### Pré-requisitos
+
+- Docker e Docker Compose instalados
+
+### Passo a passo
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/SejaSenfio/2025.2-front-onboard_API.git challenge-backend
+   ```
+
+2. Dentro do projeto há o arquivo README.md, que contém as instruções de como rodar o projeto
+
+---
+
+## 🧪 Pontos Avaliados
+
+### 📌 Consistência Visual
+
+- Utilização de um design limpo, responsivo e padronizado com Tailwind.
+- Componentes com aparência uniforme e reutilizável.
+
+### ♻️ Reutilização de Componentes
+
+- Componentização de UI com foco em legibilidade e reaproveitamento.
+- Exemplos: `<Button />, <Modal />, <Badge />`.
+
+### 📱 Responsividade
+
+- Layout adaptável para diferentes tamanhos de tela (mobile-first).
+
+### 🛡️ Robustez da Aplicação
+
+- Autenticação JWT com refresh token
+- Tratamento de erros de API
+- Proteção de rotas
+
+### 📚 Boas Práticas
+
+- Uso de tipagem estática com TypeScript
+- Validação de dados com Zod
+- Organização de pastas e responsabilidades claras
+
+### 🛠️ Kubb Setup
+
+- A partir do arquivo schema.yaml, a geração dos hooks foi feita com base no kubb.config.ts.
+
+### 🧰 Utilização do Escopo Definido
+
+- API consumida com React Query e hooks gerados pelo Kubb
+- Arquivo .dockerignore e .gitignore preenchidos
+- Integração CI com GitHub Actions
+- Scripts de lint, format, testes e build configurados
+- Utilização de Docker e Docker Compose
+
+---
+
+## 📝 Entrega
+
+- Para realizar a entrega, basta clonar(não utilize fork) o repositório e, ao finalizar o desafio, publicá-lo em seu perfil do GitHub. Após isso, envie o link do seu repositório para o contato previamente informado.
+
+---
+
+Feito com ❤️ para a oportunidade de fazer parte da equipe!
