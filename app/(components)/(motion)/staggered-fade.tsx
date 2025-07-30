@@ -38,7 +38,7 @@ const variants = {
     transition: { duration: 0.5, ease: easeOut }
   },
   contentWithPagination: {
-    containerClass: "overflow-y-auto max-h-[calc(100dvh-13rem)] h-screen",
+    containerClass: "overflow-y-auto max-h-[calc(100dvh-13rem)] h-fit",
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.5, ease: easeOut }

@@ -32,7 +32,6 @@ const MyCouponsPage = () => {
   const { redemptions, isLoading: isLoadingRedemptions, totalCount } = useRedemptions({
     totalCount: 1000,
     search: filters.search || undefined,
-    ordering: filters.ordering,
   })
 
   // Obter cupons únicos dos redemptions

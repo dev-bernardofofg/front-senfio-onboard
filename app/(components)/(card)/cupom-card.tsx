@@ -3,7 +3,7 @@ import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, recentRedemptionsQueryKey, Redemption, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
+import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, Redemption, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -33,9 +33,8 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
     mutation: {
       onSuccess: () => {
         toast.success('Cupom deletado com sucesso')
-        // Invalidar todas as queries de cupons
         queryClient.invalidateQueries({
-          queryKey: [{ url: '/api/v1/coupons' }]
+          queryKey: listCouponsQueryKey()
         })
       },
       onError: () => {
@@ -49,27 +48,13 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
       onSuccess: () => {
         toast.success('Cupom resgatado com sucesso')
 
-        // Invalidar todas as queries relacionadas
         queryClient.invalidateQueries({
-          queryKey: [{ url: listCouponsQueryKey }]
+          queryKey: listCouponsQueryKey()
         })
         queryClient.invalidateQueries({
-          queryKey: [{ url: listRedemptionsQueryKey }]
-        })
-        queryClient.invalidateQueries({
-          queryKey: [{ url: recentRedemptionsQueryKey }]
+          queryKey: listRedemptionsQueryKey({})
         })
 
-        // Forçar refetch imediato das queries ativas
-        queryClient.refetchQueries({
-          queryKey: [{ url: listCouponsQueryKey }]
-        })
-        queryClient.refetchQueries({
-          queryKey: [{ url: listRedemptionsQueryKey }]
-        })
-        queryClient.refetchQueries({
-          queryKey: [{ url: recentRedemptionsQueryKey }]
-        })
       },
       onError: (error: any) => {
         toast.error(error.data.errors.non_field_errors[0])

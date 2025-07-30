@@ -30,7 +30,7 @@ export default function CouponsPage() {
 
   const { coupons, isLoading: isLoadingCoupons, totalCount, pagination } = useCoupons({
     page: currentPage,
-    page_size: 25,
+    page_size: 10,
     search: filters.search || undefined,
     ordering: filters.ordering,
   })
@@ -101,12 +101,12 @@ export default function CouponsPage() {
 
         {/* Paginação */}
         <StaggeredFade variant="slide-up" initialDelay={0.2}>
-          {coupons.length > 0 && !isLoading && pagination && pagination.count > 25 && (
+          {coupons.length > 0 && !isLoading && pagination && pagination.count > 10 && (
             <BasePagination
               data={{
                 count: pagination.count || 0,
-                total_pages: Math.ceil((pagination.count || 0) / 25),
-                page_size: 25,
+                total_pages: Math.ceil((pagination.count || 0) / 10),
+                page_size: 10,
                 current_page: currentPage,
                 next_page: currentPage + 1,
                 previous_page: currentPage - 1

@@ -12,7 +12,7 @@ import {
 import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Filter, Search, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -35,22 +35,31 @@ export const BaseFilters = <T = Record<string, unknown>>({
 
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      ordering: defaultValues.ordering || "-created_at"
+    },
   })
 
-  // Atualizar form quando defaultValues mudar (ex: quando vem da URL)
-  useEffect(() => {
-    form.reset(defaultValues)
-  }, [defaultValues, form])
+  // Não sincronizar com URL - sempre manter campos limpos
 
   const onSubmit = (data: Record<string, unknown>) => {
-    onFiltersChange(data as T)
+    // Limpar campos vazios para campos opcionais
+    const cleanedData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [
+        key,
+        value === "" ? undefined : value
+      ])
+    )
+    onFiltersChange(cleanedData as T)
     setIsOpen(false)
   }
 
   const handleClear = () => {
-    form.reset(defaultValues)
-    onFiltersChange(defaultValues as T)
+    // Limpar formulário
+    form.reset({})
+    // Enviar null para remover completamente o parâmetro da URL
+    onFiltersChange(null as T)
   }
 
   const hasFilters = Object.values(form.watch()).some(value =>
@@ -74,32 +83,30 @@ export const BaseFilters = <T = Record<string, unknown>>({
           <Form {...form}>
             <BaseForm onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               {/* Campo de busca geral */}
-              <BaseInput
-                control={form.control}
-                name="search"
-                placeholder="Buscar por código, descrição..."
-                className="w-full"
-              />
-
+              {!!schema.shape.search && (
+                <BaseInput
+                  control={form.control}
+                  name="search"
+                  placeholder="Buscar por código, descrição..."
+                  className="w-full"
+                />
+              )}
+              {!!schema.shape.ordering && (
+                <BaseSelect
+                  control={form.control}
+                  name="ordering"
+                  placeholder="Ordenar por"
+                  options={
+                    [
+                      { label: "Mais recentes", value: "-created_at" },
+                      { label: "Mais antigos", value: "created_at" },
+                      { label: "Código A-Z", value: "coupon__code" },
+                      { label: "Código Z-A", value: "-coupon__code" }
+                    ]
+                  }
+                />
+              )}
               {/* Seletor de ordenação - sempre visível */}
-              <BaseSelect
-                control={form.control}
-                name="ordering"
-                placeholder="Ordenar por"
-                options={
-                  !('email' in schema.shape) ? [
-                    { label: "Mais recentes", value: "-created_at" },
-                    { label: "Mais antigos", value: "created_at" },
-                    { label: "Código A-Z", value: "code" },
-                    { label: "Código Z-A", value: "-code" }
-                  ] : [
-                    { label: "Mais recentes", value: "-redeemed_at" },
-                    { label: "Mais antigos", value: "redeemed_at" },
-                    { label: "Código A-Z", value: "coupon__code" },
-                    { label: "Código Z-A", value: "-coupon__code" }
-                  ]
-                }
-              />
 
               {/* Botões de ação */}
               <div className="flex gap-2 pt-2">
