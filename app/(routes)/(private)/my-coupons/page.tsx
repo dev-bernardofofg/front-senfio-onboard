@@ -8,25 +8,24 @@ import { CupomCard } from '@/app/(components)/(card)/cupom-card'
 import { Header } from '@/app/(components)/(layout)/header'
 import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
 import { RedemptionFiltersDefaultValues, RedemptionFiltersSchema, RedemptionFiltersType } from '@/app/(resources)/(schemas)/filters.schema'
+import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
-import { useUrlFilters } from '@/hooks/use-url-filters'
 import { Tickets } from 'lucide-react'
-import { useQueryState } from 'nuqs'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 const MyCouponsPage = () => {
-  const [currentPage, setCurrentPage] = useQueryState('page', {
-    defaultValue: 1,
-    parse: (value) => parseInt(value) || 1,
-    serialize: (value) => value.toString(),
-    shallow: true,
-    clearOnDefault: false,
-  })
-
-  const itemsPerPage = 10
-  const { filters, updateFilters } = useUrlFilters<RedemptionFiltersType>({
+  const {
+    currentPage,
+    filters,
+    handlePageChange,
+    handleFiltersChange,
+    handleResetPage,
+    validatePage,
+    getPaginationData,
+    pageSize
+  } = usePagination<RedemptionFiltersType>({
     defaultValues: RedemptionFiltersDefaultValues,
-    paramName: 'redemptionFilters'
+    pageSize: 10
   })
 
   const { redemptions, isLoading: isLoadingRedemptions, totalCount } = useRedemptions({
@@ -48,19 +47,17 @@ const MyCouponsPage = () => {
   }, [redemptions])
 
   // Paginação client-side
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
+  const startIndex = (currentPage - 1) * pageSize
+  const endIndex = startIndex + pageSize
   const paginatedCoupons = uniqueCoupons.slice(startIndex, endIndex)
-  const totalPages = Math.ceil(uniqueCoupons.length / itemsPerPage)
+  const totalPages = Math.ceil(uniqueCoupons.length / pageSize)
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
-
-  const handleFiltersChange = (newFilters: RedemptionFiltersType) => {
-    updateFilters(newFilters)
-    setCurrentPage(1) // Reset para primeira página quando filtrar
-  }
+  // Validar página quando os dados carregam
+  useEffect(() => {
+    if (!isLoadingRedemptions) {
+      validatePage(totalPages)
+    }
+  }, [currentPage, totalPages, isLoadingRedemptions, validatePage])
 
   return (
     <StaggeredFade className="w-full" variant="page">
@@ -77,9 +74,11 @@ const MyCouponsPage = () => {
       />
       <StaggeredFade className="w-full p-3 space-y-3">
         {isLoadingRedemptions && (
-          <StaggeredFade variant="slide-up">
-            <BaseLoadingCards />
-          </StaggeredFade>
+          <div className="grid gap-4 base:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <BaseLoadingCards key={index} />
+            ))}
+          </div>
         )}
 
         {uniqueCoupons.length > 0 && !isLoadingRedemptions && (
@@ -94,24 +93,19 @@ const MyCouponsPage = () => {
           </StaggeredFade>
         )}
 
-        {uniqueCoupons.length === 0 && !isLoadingRedemptions && (
+        {/* Estado vazio apenas quando há busca sem resultados ou erro na paginação */}
+        {uniqueCoupons.length === 0 && !isLoadingRedemptions && (filters.search || totalCount === 0) && (
           <BaseEmptyData
             Icon={Tickets}
-            title={filters.search ? "Nenhum resgate encontrado" : "Nenhum resgate disponível"}
+            title={filters.search ? "Nenhum resgate encontrado" : "Erro ao carregar resgates"}
+            onClick={handleResetPage}
           />
         )}
 
         {/* Paginação */}
-        {uniqueCoupons.length > itemsPerPage && !isLoadingRedemptions && (
+        {uniqueCoupons.length > pageSize && !isLoadingRedemptions && (
           <BasePagination
-            data={{
-              count: uniqueCoupons.length,
-              total_pages: totalPages,
-              page_size: itemsPerPage,
-              current_page: currentPage,
-              next_page: currentPage < totalPages ? currentPage + 1 : null,
-              previous_page: currentPage > 1 ? currentPage - 1 : null
-            }}
+            data={getPaginationData(uniqueCoupons.length)}
             onPageChange={handlePageChange}
             className="justify-center"
           />

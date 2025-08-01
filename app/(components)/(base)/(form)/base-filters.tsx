@@ -100,8 +100,6 @@ export const BaseFilters = <T = Record<string, unknown>>({
                     [
                       { label: "Mais recentes", value: "-created_at" },
                       { label: "Mais antigos", value: "created_at" },
-                      { label: "Código A-Z", value: "coupon__code" },
-                      { label: "Código Z-A", value: "-coupon__code" }
                     ]
                   }
                 />

@@ -39,6 +39,11 @@ export const BasePagination = ({
   } = data
 
   const handlePageChange = (page: number) => {
+    // Validar se a página é válida antes de navegar
+    if (page < 1 || page > total_pages) {
+      return
+    }
+
     if (onPageChange) {
       onPageChange(page)
     } else {

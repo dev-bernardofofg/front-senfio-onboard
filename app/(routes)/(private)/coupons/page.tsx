@@ -9,23 +9,22 @@ import { Header } from '@/app/(components)/(layout)/header'
 import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
 import { CouponFiltersDefaultValues, CouponFiltersSchema, CouponFiltersType } from '@/app/(resources)/(schemas)/filters.schema'
 import { useCoupons } from '@/hooks/use-coupons'
+import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
-import { useUrlFilters } from '@/hooks/use-url-filters'
 import { Tickets } from 'lucide-react'
-import { useQueryState } from 'nuqs'
 
 export default function CouponsPage() {
-  const [currentPage, setCurrentPage] = useQueryState('page', {
-    defaultValue: 1,
-    parse: (value) => parseInt(value) || 1,
-    serialize: (value) => value.toString(),
-    shallow: true,
-    clearOnDefault: false,
-  })
-
-  const { filters, updateFilters } = useUrlFilters<CouponFiltersType>({
+  const {
+    currentPage,
+    filters,
+    handlePageChange,
+    handleFiltersChange,
+    handleResetPage,
+    validatePage,
+    getPaginationData
+  } = usePagination<CouponFiltersType>({
     defaultValues: CouponFiltersDefaultValues,
-    paramName: 'couponFilters'
+    pageSize: 10
   })
 
   const { coupons, isLoading: isLoadingCoupons, totalCount, pagination } = useCoupons({
@@ -41,28 +40,9 @@ export default function CouponsPage() {
 
   const isLoading = isLoadingCoupons || isLoadingRedemptions
 
-  // Criar loading cards
   const loadingCards = Array.from({ length: 6 }).map((_, index) => (
     <BaseLoadingCards key={index} />
   ))
-
-  // Criar cupom cards
-  const couponCards = coupons.map((coupon) => (
-    <CupomCard
-      key={coupon.id}
-      coupon={coupon}
-      redemptions={redemptions}
-    />
-  ))
-
-  const handleFiltersChange = (newFilters: CouponFiltersType) => {
-    updateFilters(newFilters)
-    setCurrentPage(1) // Reset para primeira página quando filtrar
-  }
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-  }
 
   return (
     <StaggeredFade className="w-full" variant="page">
@@ -86,36 +66,33 @@ export default function CouponsPage() {
             loadingContent={loadingCards}
             staggerDelay={0.1}
           >
-            {couponCards}
+            {coupons.map((coupon) => (
+              <CupomCard
+                key={coupon.id}
+                coupon={coupon}
+                redemptions={redemptions}
+              />
+            ))}
           </StaggeredFade>
         </div>
 
-        {coupons.length === 0 && !isLoading && (
+        {coupons.length === 0 && !isLoading && (filters.search || !pagination) && (
           <StaggeredFade variant="slide-up">
             <BaseEmptyData
               Icon={Tickets}
-              title={filters.search ? "Nenhum cupom encontrado" : "Nenhum cupom disponível"}
+              title={filters.search ? "Nenhum cupom encontrado" : "Erro ao carregar cupons"}
+              onClick={handleResetPage}
             />
           </StaggeredFade>
         )}
 
-        {/* Paginação */}
-        <StaggeredFade variant="slide-up" initialDelay={0.2}>
-          {coupons.length > 0 && !isLoading && pagination && pagination.count > 10 && (
-            <BasePagination
-              data={{
-                count: pagination.count || 0,
-                total_pages: Math.ceil((pagination.count || 0) / 10),
-                page_size: 10,
-                current_page: currentPage,
-                next_page: currentPage + 1,
-                previous_page: currentPage - 1
-              }}
-              onPageChange={handlePageChange}
-              className="justify-center"
-            />
-          )}
-        </StaggeredFade>
+        {pagination && pagination.count > 10 && (
+          <BasePagination
+            data={getPaginationData(pagination.count || 0)}
+            onPageChange={handlePageChange}
+            className="justify-center"
+          />
+        )}
       </StaggeredFade>
     </StaggeredFade>
   )

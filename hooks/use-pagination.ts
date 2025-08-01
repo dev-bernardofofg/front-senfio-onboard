@@ -1,60 +1,74 @@
-import { PaginationData } from "@/app/(components)/(base)/(show-data)/base-pagination";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useQueryState } from "nuqs";
+import { useUrlFilters } from "./use-url-filters";
 
-export const usePagination = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+interface UsePaginationParams<T> {
+  defaultValues: T;
+  pageSize?: number;
+}
 
-  const currentPage = parseInt(searchParams.get("page") || "1");
-  const pageSize = parseInt(searchParams.get("page_size") || "10");
+export const usePagination = <T extends Record<string, any>>({
+  defaultValues,
+  pageSize = 10,
+}: UsePaginationParams<T>) => {
+  const [currentPage, setCurrentPage] = useQueryState("page", {
+    defaultValue: 1,
+    parse: (value) => parseInt(value) || 1,
+    serialize: (value) => value.toString(),
+    shallow: true,
+    clearOnDefault: false,
+  });
 
-  const updatePage = useCallback(
-    (page: number) => {
-      const params = new URLSearchParams(searchParams);
-      params.set("page", page.toString());
-      router.push(`?${params.toString()}`);
-    },
-    [searchParams, router]
-  );
+  const { filters, updateFilters } = useUrlFilters<T>({
+    defaultValues,
+    paramName: "filters",
+  });
 
-  const updatePageSize = useCallback(
-    (size: number) => {
-      const params = new URLSearchParams(searchParams);
-      params.set("page_size", size.toString());
-      params.set("page", "1"); // Volta para primeira página
-      router.push(`?${params.toString()}`);
-    },
-    [searchParams, router]
-  );
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
-  const getPaginationParams = useCallback(() => {
+  const handleFiltersChange = (newFilters: T) => {
+    updateFilters(newFilters);
+    setCurrentPage(1); // Reset para primeira página quando filtrar
+  };
+
+  const handleResetPage = () => {
+    // Limpar completamente a URL
+    setCurrentPage(1);
+    updateFilters(defaultValues);
+  };
+
+  const validatePage = (totalPages: number) => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    } else if (currentPage < 1) {
+      setCurrentPage(1);
+    }
+  };
+
+  const getPaginationData = (totalCount: number) => {
+    const totalPages = Math.ceil(totalCount / pageSize);
+
     return {
-      page: currentPage,
+      count: totalCount,
+      total_pages: totalPages,
       page_size: pageSize,
+      current_page: currentPage,
+      next_page: currentPage < totalPages ? currentPage + 1 : null,
+      previous_page: currentPage > 1 ? currentPage - 1 : null,
     };
-  }, [currentPage, pageSize]);
-
-  const createPaginationData = useCallback(
-    (apiResponse: any): PaginationData => {
-      return {
-        count: apiResponse?.count || 0,
-        current_page: apiResponse?.current_page || 1,
-        next_page: apiResponse?.next_page || null,
-        page_size: apiResponse?.page_size || 10,
-        previous_page: apiResponse?.previous_page || null,
-        total_pages: apiResponse?.total_pages || 1,
-      };
-    },
-    []
-  );
+  };
 
   return {
     currentPage,
+    setCurrentPage,
+    filters,
+    updateFilters,
+    handlePageChange,
+    handleFiltersChange,
+    handleResetPage,
+    validatePage,
+    getPaginationData,
     pageSize,
-    updatePage,
-    updatePageSize,
-    getPaginationParams,
-    createPaginationData,
   };
 };

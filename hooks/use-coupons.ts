@@ -10,7 +10,7 @@ interface UseCouponsParams {
 
 export const useCoupons = ({
   page = 1,
-  page_size = 25,
+  page_size = 10,
   search,
   ordering,
 }: UseCouponsParams = {}) => {

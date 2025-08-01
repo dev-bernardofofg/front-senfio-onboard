@@ -20,16 +20,35 @@ export function useUrlFilters<T extends Record<string, any>>({
       }
     },
     serialize: (value: T) => encodeURIComponent(JSON.stringify(value)),
-    // Usar shallow para evitar problemas de hidratação
     shallow: true,
     clearOnDefault: false,
   });
 
   const updateFilters = useCallback(
     (newFilters: T) => {
-      setFilters(newFilters);
+      // Se os novos filtros são iguais aos valores padrão, limpar a URL
+      const isDefault = Object.keys(defaultValues).every((key) => {
+        const defaultValue = defaultValues[key as keyof T];
+        const newValue = newFilters[key as keyof T];
+
+        // Tratar strings vazias como equivalentes
+        if (typeof defaultValue === "string" && typeof newValue === "string") {
+          return (
+            defaultValue === newValue ||
+            (defaultValue === "" && newValue === "")
+          );
+        }
+
+        return defaultValue === newValue;
+      });
+
+      if (isDefault) {
+        setFilters(null); // Isso remove o parâmetro da URL
+      } else {
+        setFilters(newFilters);
+      }
     },
-    [setFilters]
+    [setFilters, defaultValues]
   );
 
   return {

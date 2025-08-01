@@ -2,9 +2,7 @@ import { z } from "zod";
 
 export const CouponFiltersSchema = z.object({
   search: z.string().optional(),
-  ordering: z
-    .enum(["created_at", "-created_at", "code", "-code"])
-    .default("-created_at"),
+  ordering: z.enum(["created_at", "-created_at"]).default("-created_at"),
 });
 
 export type CouponFiltersType = z.infer<typeof CouponFiltersSchema>;
