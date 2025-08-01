@@ -11,8 +11,6 @@ const compat = new FlatCompat({
   allConfig: { js: { ignorePatterns: [] } },
 })
 
-const eslintConfig = [
-  ...compat.extends('next/core-web-vitals'),
-]
+const eslintConfig = [...compat.extends('next/core-web-vitals')]
 
 export default eslintConfig

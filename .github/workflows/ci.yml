@@ -45,11 +45,7 @@ jobs:
         run: pnpm run lint
 
       - name: Check formatting
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Code formatting issues found. Please run 'pnpm format' locally."
-            exit 1
-          fi
+        run: pnpm run format:check
 
   type-check:
     name: TypeScript Type Check
