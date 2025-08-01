@@ -20,8 +20,9 @@ import { useCoupons } from '@/hooks/use-coupons'
 import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
 import { Tickets } from 'lucide-react'
+import { Suspense } from 'react'
 
-export default function CouponsPage() {
+function CouponsPageContent() {
   const {
     currentPage,
     filters,
@@ -126,5 +127,13 @@ export default function CouponsPage() {
         )}
       </StaggeredFade>
     </StaggeredFade>
+  )
+}
+
+export default function CouponsPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <CouponsPageContent />
+    </Suspense>
   )
 }

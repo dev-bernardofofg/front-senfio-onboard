@@ -15,9 +15,9 @@ import {
 import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
 import { Tickets } from 'lucide-react'
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 
-const MyCouponsPage = () => {
+function MyCouponsPageContent() {
   const {
     currentPage,
     filters,
@@ -128,4 +128,10 @@ const MyCouponsPage = () => {
   )
 }
 
-export default MyCouponsPage
+export default function MyCouponsPage() {
+  return (
+    <Suspense fallback={<div>Carregando...</div>}>
+      <MyCouponsPageContent />
+    </Suspense>
+  )
+}
