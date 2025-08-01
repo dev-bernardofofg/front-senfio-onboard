@@ -3,6 +3,7 @@
 import { BaseFilters } from '@/app/(components)/(base)/(form)/base-filters'
 import { BaseEmptyData } from '@/app/(components)/(base)/(show-data)/base-empty-data'
 import { BaseLoadingCards } from '@/app/(components)/(base)/(show-data)/base-loading-cards'
+import { BaseLoading } from '@/app/(components)/(base)/(show-data)/base-loading'
 import { BasePagination } from '@/app/(components)/(base)/(show-data)/base-pagination'
 import { CupomCard } from '@/app/(components)/(card)/cupom-card'
 import { Header } from '@/app/(components)/(layout)/header'
@@ -130,7 +131,7 @@ function MyCouponsPageContent() {
 
 export default function MyCouponsPage() {
   return (
-    <Suspense fallback={<div>Carregando...</div>}>
+    <Suspense fallback={<BaseLoading text="Carregando meus resgates..." />}>
       <MyCouponsPageContent />
     </Suspense>
   )
