@@ -1,6 +1,6 @@
 "use client";
 
-import { StaffOnly } from "@/app/(components)/(base)/(authorization)/authorized-content";
+import { NonStaffOnly, StaffOnly } from "@/app/(components)/(base)/(authorization)/authorized-content";
 import {
   Sidebar,
   SidebarContent,
@@ -40,7 +40,9 @@ export const BaseSidebar = () => {
           <SidebarItem Icon={Home} href="/dashboard" title="Dashboard" />
         </SidebarGroupCustom>
         <SidebarGroupCustom label="Gerenciamento">
-          <SidebarItem Icon={Gift} href="/my-coupons" title="Meus Resgates" />
+          <NonStaffOnly>
+            <SidebarItem Icon={Gift} href="/my-coupons" title="Meus Resgates" />
+          </NonStaffOnly>
           <SidebarItem Icon={Ticket} href="/coupons" title="Cupons" />
         </SidebarGroupCustom>
 
