@@ -97,7 +97,7 @@ const MyCouponsPage = () => {
         {uniqueCoupons.length === 0 && !isLoadingRedemptions && (filters.search || totalCount === 0) && (
           <BaseEmptyData
             Icon={Tickets}
-            title={filters.search ? "Nenhum resgate encontrado" : "Erro ao carregar resgates"}
+            title="Nenhum resgate encontrado"
             onClick={handleResetPage}
           />
         )}

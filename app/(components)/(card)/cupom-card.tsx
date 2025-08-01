@@ -1,4 +1,5 @@
 import { NonStaffOnly, StaffOnly } from '@/app/(components)/(base)/(authorization)/authorized-content'
+import { UpsertCouponForm } from '@/app/(resources)/(forms)/(coupons)/upsert-coupom.form'
 import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -7,6 +8,8 @@ import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, Redemption, useCr
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { ConfirmDialog } from '../(base)/(portals)/base-confirm-dialog'
+import { BaseDialog } from '../(base)/(portals)/base-dialog'
 
 interface CupomCardProps {
   coupon: Coupon
@@ -14,6 +17,7 @@ interface CupomCardProps {
 }
 
 export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
+
   const queryClient = useQueryClient()
 
   const isAvailable = coupon.available
@@ -35,6 +39,9 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
         toast.success('Cupom deletado com sucesso')
         queryClient.invalidateQueries({
           queryKey: listCouponsQueryKey()
+        })
+        queryClient.invalidateQueries({
+          queryKey: listRedemptionsQueryKey({})
         })
       },
       onError: () => {
@@ -89,13 +96,14 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
             <span className="font-medium">{coupon.max_redemptions || 'Ilimitado'}</span>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Seus resgates:</span>
-            <span className="font-medium">
-              {userRedemptionsForThisCoupon.length} / {coupon.max_redemptions || '∞'}
-            </span>
-          </div>
-
+          <NonStaffOnly>
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Seus resgates:</span>
+              <span className="font-medium">
+                {userRedemptionsForThisCoupon.length} / {coupon.max_redemptions || 'Ilimitado'}
+              </span>
+            </div>
+          </NonStaffOnly>
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Criado em:</span>
             <span className="font-medium">
@@ -106,14 +114,25 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
           {/* Ações específicas por tipo de usuário */}
           <div className="flex gap-1.5 mt-3">
             <StaffOnly>
-              <Button size="sm" variant="outline" className="text-xs h-7 px-2">
+              <BaseDialog trigger={<Button size="sm" variant="outline" className="text-xs h-7 px-2">
                 <Edit className="h-3 w-3 mr-1" />
                 <span className="hidden sm:inline">Editar</span>
-              </Button>
-              <Button size="sm" variant="destructive" className="text-xs h-7 px-2" onClick={() => deleteCoupon({ id: coupon.id })} disabled={isPending}>
-                <Trash2 className="h-3 w-3 mr-1" />
-                <span className="hidden sm:inline">Excluir</span>
-              </Button>
+              </Button>}
+                title="Editar Cupom"
+                children={<UpsertCouponForm coupon={coupon} />}
+              >
+
+              </BaseDialog>
+              <ConfirmDialog
+                title="Excluir Cupom"
+                description="Tem certeza que deseja excluir este cupom?"
+                trigger={<Button size="sm" variant="destructive" className="text-xs h-7 px-2" disabled={isPending}>
+                  <Trash2 className="h-3 w-3 mr-1" />
+                  <span className="hidden sm:inline">Excluir</span>
+                </Button>
+                }
+                onConfirm={() => deleteCoupon({ id: coupon.id })}
+              />
             </StaffOnly>
 
             <NonStaffOnly>

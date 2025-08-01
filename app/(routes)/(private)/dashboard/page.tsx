@@ -42,7 +42,7 @@ const DashboardPage = () => {
     <StaggeredFade className="w-full" variant="page">
       {/* Header */}
       <Header title="Dashboard" />
-      <StaggeredFade className="w-full p-3 space-y-3">
+      <StaggeredFade className="w-full p-3 space-y-3" variant="content">
         <StaggeredFade className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <BaseStats
             title="Cupons Ativos"

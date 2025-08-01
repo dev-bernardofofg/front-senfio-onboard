@@ -79,6 +79,11 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
             if (isMoney) {
               const maskedValue = maskMoney(e.target.value);
               field.onChange(maskedValue);
+            } else if (type === "number") {
+              const value = e.target.value;
+              // Converte string vazia para null, ou converte para número
+              const numericValue = value === "" ? null : Number(value);
+              field.onChange(numericValue);
             } else {
               field.onChange(e);
             }
@@ -122,7 +127,13 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
                         tabIndex={0}
                         placeholder={placeholder}
                         {...field}
-                        value={isMoney && field?.value ? maskMoney(field.value) : (field?.value || "")}
+                        value={
+                          isMoney && field?.value
+                            ? maskMoney(field.value)
+                            : type === "number"
+                              ? (field?.value?.toString() || "")
+                              : (field?.value || "")
+                        }
                         ref={mergeRefs(ref, field.ref, inputRef)}
                         type={inputType}
                         readOnly={readOnly}

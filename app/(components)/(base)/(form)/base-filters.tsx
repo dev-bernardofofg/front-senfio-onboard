@@ -11,10 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Filter, Search, X } from 'lucide-react'
+import { Filter, X } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { BaseButton } from '../(clickable)/base-button'
 
 interface BaseFiltersProps<T = Record<string, unknown>> {
   schema: z.ZodObject<Record<string, z.ZodTypeAny>>
@@ -56,9 +57,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
   }
 
   const handleClear = () => {
-    // Limpar formulário
     form.reset({})
-    // Enviar null para remover completamente o parâmetro da URL
     onFiltersChange(null as T)
   }
 
@@ -69,13 +68,9 @@ export const BaseFilters = <T = Record<string, unknown>>({
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Search className="h-4 w-4" />
-          Filtros Avançados
-          {hasFilters && (
-            <div className="w-2 h-2 bg-primary rounded-full" />
-          )}
-        </Button>
+        <BaseButton variant="outline" clickAction="filters">
+          Filtros
+        </BaseButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 p-4">
         <div className="space-y-4">
@@ -104,9 +99,6 @@ export const BaseFilters = <T = Record<string, unknown>>({
                   }
                 />
               )}
-              {/* Seletor de ordenação - sempre visível */}
-
-              {/* Botões de ação */}
               <div className="flex gap-2 pt-2">
                 {showClearButton && hasFilters && (
                   <Button
@@ -116,7 +108,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
                     onClick={handleClear}
                     className="flex-1"
                   >
-                    <X className="h-4 w-4 mr-2" />
+                    <X className="size-4" />
                     Limpar
                   </Button>
                 )}
@@ -125,7 +117,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
                   size="sm"
                   className="flex-1"
                 >
-                  <Filter className="h-4 w-4 mr-2" />
+                  <Filter className="size-4" />
                   Aplicar
                 </Button>
               </div>

@@ -1,12 +1,15 @@
 "use client"
 
+import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
 import { BaseFilters } from '@/app/(components)/(base)/(form)/base-filters'
+import { BaseDialog } from '@/app/(components)/(base)/(portals)/base-dialog'
 import { BaseEmptyData } from '@/app/(components)/(base)/(show-data)/base-empty-data'
 import { BaseLoadingCards } from '@/app/(components)/(base)/(show-data)/base-loading-cards'
 import { BasePagination } from '@/app/(components)/(base)/(show-data)/base-pagination'
 import { CupomCard } from '@/app/(components)/(card)/cupom-card'
 import { Header } from '@/app/(components)/(layout)/header'
 import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
+import { UpsertCouponForm } from '@/app/(resources)/(forms)/(coupons)/upsert-coupom.form'
 import { CouponFiltersDefaultValues, CouponFiltersSchema, CouponFiltersType } from '@/app/(resources)/(schemas)/filters.schema'
 import { useCoupons } from '@/hooks/use-coupons'
 import { usePagination } from '@/hooks/use-pagination'
@@ -54,7 +57,14 @@ export default function CouponsPage() {
             schema={CouponFiltersSchema}
             defaultValues={filters}
             onFiltersChange={handleFiltersChange}
-          />
+          />,
+          <BaseDialog
+            key="create-coupon"
+            title="Criar Cupom"
+            trigger={<BaseButton variant="outline" clickAction='create' >Criar Cupom</BaseButton>}
+          >
+            <UpsertCouponForm />
+          </BaseDialog>
         ]}
       />
       <StaggeredFade className="w-full p-3 space-y-3">
