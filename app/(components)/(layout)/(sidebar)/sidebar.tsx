@@ -8,7 +8,7 @@ import {
   SidebarHeader,
   SidebarSeparator
 } from "@/components/ui/sidebar";
-import { BarChart3, Gift, Home, Settings, Ticket, Users } from "lucide-react";
+import { Gift, Home, Ticket, Users } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -46,9 +46,7 @@ export const BaseSidebar = () => {
 
         <StaffOnly>
           <SidebarGroupCustom label="Administração">
-            <SidebarItem Icon={Users} href="/admin/users" title="Usuários" />
-            <SidebarItem Icon={BarChart3} href="/admin/analytics" title="Analytics" />
-            <SidebarItem Icon={Settings} href="/admin/settings" title="Configurações" />
+            <SidebarItem Icon={Users} href="/users" title="Usuários" />
           </SidebarGroupCustom>
         </StaffOnly>
       </SidebarContent>

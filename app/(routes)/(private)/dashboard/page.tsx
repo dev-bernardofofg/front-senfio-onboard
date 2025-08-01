@@ -43,7 +43,7 @@ const DashboardPage = () => {
       {/* Header */}
       <Header title="Dashboard" />
       <StaggeredFade className="w-full p-3 space-y-3" variant="content">
-        <StaggeredFade className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid base:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <BaseStats
             title="Cupons Ativos"
             Icon={Gift}
@@ -51,8 +51,6 @@ const DashboardPage = () => {
             loading={couponsQuery.isLoading}
             description="Cupons disponíveis"
           />
-
-
           <BaseStats
             title="Total de Resgates"
             Icon={Activity}
@@ -83,7 +81,7 @@ const DashboardPage = () => {
               description="Usuários cadastrados"
             />
           </StaffOnly>
-        </StaggeredFade>
+        </div>
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="gap-3">

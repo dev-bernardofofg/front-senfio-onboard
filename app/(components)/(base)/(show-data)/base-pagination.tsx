@@ -116,7 +116,7 @@ export const BasePagination = ({
           disabled={!previous_page}
           className="flex items-center gap-1 max-w-28 w-fit"
         >
-          <ChevronLeft className="size-4 m-0!" />
+          <ChevronLeft className="size-4 m-0" />
           <span className="base:hidden md:block">Anterior</span>
         </BaseButton>
 
