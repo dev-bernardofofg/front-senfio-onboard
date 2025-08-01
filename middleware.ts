@@ -51,7 +51,7 @@ export function middleware(request: NextRequest) {
     '/users',
   ]
 
-  const pageNonStaff = ['/my-coupons', '/coupons', '/dashboard']
+  const pageNonStaff = ['/my-coupons', '/coupons', '/dashboard', '/profile']
 
   if (user.is_staff && tokens) {
     if (!pageStaff.includes(pathname)) {
