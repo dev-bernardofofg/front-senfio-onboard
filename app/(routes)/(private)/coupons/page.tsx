@@ -1,5 +1,6 @@
 "use client"
 
+import { StaffOnly } from '@/app/(components)/(base)/(authorization)/authorized-content'
 import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
 import { BaseFilters } from '@/app/(components)/(base)/(form)/base-filters'
 import { BaseDialog } from '@/app/(components)/(base)/(portals)/base-dialog'
@@ -58,13 +59,15 @@ export default function CouponsPage() {
             defaultValues={filters}
             onFiltersChange={handleFiltersChange}
           />,
-          <BaseDialog
-            key="create-coupon"
-            title="Criar Cupom"
-            trigger={<BaseButton variant="outline" clickAction='create' >Criar Cupom</BaseButton>}
-          >
-            <UpsertCouponForm />
-          </BaseDialog>
+          <StaffOnly>
+            <BaseDialog
+              key="create-coupon"
+              title="Criar Cupom"
+              trigger={<BaseButton variant="outline" clickAction='create' >Criar Cupom</BaseButton>}
+            >
+              <UpsertCouponForm />
+            </BaseDialog>
+          </StaffOnly>
         ]}
       />
       <StaggeredFade className="w-full p-3 space-y-3">

@@ -7,16 +7,24 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Lock, Shield, User } from "lucide-react"
+import { useTheme } from "next-themes"
 import Image from "next/image"
 
 const AuthPage = () => {
+  const { forcedTheme } = useTheme();
+
   return (
     <div className="w-full max-w-md mx-auto p-6">
       <Card className="shadow-lg border-0 bg-card/50 backdrop-blur-sm gap-2">
         <CardHeader className="space-y-2">
           <div className="flex flex-col items-center space-y-2">
             <div className="relative w-24 h-12">
-              <Image src="/logo-s3-light.svg" alt="Senfio" fill className="object-contain" />
+              <Image
+                src={forcedTheme === "dark" ? "/logo-s3-dark.svg" : "/logo-s3-light.svg"}
+                alt="Senfio"
+                fill
+                className="object-contain"
+              />
             </div>
 
             <div className="text-center space-y-2 sr-only">

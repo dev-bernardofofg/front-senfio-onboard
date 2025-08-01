@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const authUser = request.cookies.get("auth_user")?.value;
+  const tokens = request.cookies.get("tokens")?.value;
 
   // Se estiver na página de auth e já tem tokens válidos, redireciona para dashboard
   if (pathname.startsWith("/auth")) {
-    const tokens = request.cookies.get("tokens")?.value;
-
     if (tokens) {
       try {
         const tokensData = JSON.parse(tokens);
@@ -22,28 +22,46 @@ export function middleware(request: NextRequest) {
         return response;
       }
     }
+    return NextResponse.next();
   }
 
-  // Se estiver em uma rota privada e não tem tokens, redireciona para auth
-  if (
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/profile") ||
-    pathname.startsWith("/coupons") ||
-    pathname.startsWith("/my-coupons")
-  ) {
-    const tokens = request.cookies.get("tokens")?.value;
+  // Se não tem tokens e não está na página de auth, redireciona para auth
+  if (!tokens) {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
 
-    if (!tokens) {
+  // Verifica se o token é válido
+  try {
+    const tokensData = JSON.parse(tokens);
+    if (!tokensData.access) {
       return NextResponse.redirect(new URL("/auth", request.url));
     }
+  } catch {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
 
-    try {
-      const tokensData = JSON.parse(tokens);
-      if (!tokensData.access) {
-        return NextResponse.redirect(new URL("/auth", request.url));
-      }
-    } catch {
-      return NextResponse.redirect(new URL("/auth", request.url));
+  // Lógica de autorização por roles
+  const user = JSON.parse(authUser || "{}");
+
+  const pageStaff = [
+    "/dashboard",
+    "/profile",
+    "/coupons",
+    "/my-coupons",
+    "/users",
+  ];
+
+  const pageNonStaff = ["/my-coupons", "/coupons", "/dashboard"];
+
+  if (user.is_staff && tokens) {
+    if (!pageStaff.includes(pathname)) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+  }
+
+  if (!user.is_staff && tokens) {
+    if (!pageNonStaff.includes(pathname)) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
 
@@ -51,5 +69,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|ico|webp)).*)",
+  ],
 };
