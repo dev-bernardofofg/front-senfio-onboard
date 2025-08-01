@@ -1,17 +1,17 @@
-import { format } from "date-fns";
+import { format } from 'date-fns'
 
 export const FN_UTILS_DATE = {
   formatDate: (dateString: string | null | undefined): string => {
-    if (!dateString) return "Data não disponível";
+    if (!dateString) return 'Data não disponível'
 
     try {
-      const date = new Date(dateString);
+      const date = new Date(dateString)
       if (isNaN(date.getTime())) {
-        return "Data inválida";
+        return 'Data inválida'
       }
-      return format(date, "dd/MM/yyyy");
+      return format(date, 'dd/MM/yyyy')
     } catch (error) {
-      return "Data inválida";
+      return 'Data inválida'
     }
   },
-};
+}

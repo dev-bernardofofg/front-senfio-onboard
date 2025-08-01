@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { BaseSidebar } from "@/app/(components)/(layout)/(sidebar)/sidebar"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { BaseSidebar } from '@/app/(components)/(layout)/(sidebar)/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 interface PrivateLayoutProps {
   children: React.ReactNode

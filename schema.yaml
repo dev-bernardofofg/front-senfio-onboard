@@ -2,7 +2,8 @@ openapi: 3.0.3
 info:
   title: API Onboard - Backend
   version: 0.1.0-alpha.0
-  description: "\n    Documentação de endpoints do projeto '[Challenge] - Backend'\
+  description:
+    "\n    Documentação de endpoints do projeto '[Challenge] - Backend'\
     \ da Senfio.\n\n    ==> Parâmetros gerais de consulta:\n    - `page`: Página a\
     \ ser retornada.\n    - `page_size`: Quantidade de itens por página.\n    - `ordering`:\
     \ Campo a ser ordenado. (prefixo '-' para ordem decrescente)\n    - `search`:\
@@ -29,14 +30,14 @@ paths:
       description: Altera a senha do usuário autenticado.
       summary: Alterar senha
       tags:
-      - Auth/Users
+        - Auth/Users
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PatchedChangePassword'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -140,7 +141,7 @@ paths:
       description: Loga o usuário no sistema.
       summary: Login
       tags:
-      - Auth/Users
+        - Auth/Users
       requestBody:
         content:
           application/json:
@@ -250,7 +251,7 @@ paths:
       description: Desloga o usuário.
       summary: Logout
       tags:
-      - Auth/Users
+        - Auth/Users
       requestBody:
         content:
           application/json:
@@ -258,7 +259,7 @@ paths:
               $ref: '#/components/schemas/UserLogout'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '205':
           content:
@@ -362,9 +363,9 @@ paths:
       description: Retorna os dados do usuário autenticado.
       summary: Quem sou eu
       tags:
-      - Auth/Users
+        - Auth/Users
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -468,7 +469,7 @@ paths:
       description: Atualiza o token de acesso.
       summary: Atualizar token
       tags:
-      - Auth/Users
+        - Auth/Users
       requestBody:
         content:
           application/json:
@@ -578,7 +579,7 @@ paths:
       description: Registra um novo usuário no sistema.
       summary: Registrar usuário
       tags:
-      - Auth/Users
+        - Auth/Users
       requestBody:
         content:
           application/json:
@@ -688,34 +689,34 @@ paths:
       description: Lista todos os usuários do sistema.
       summary: Listar usuários
       parameters:
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - in: query
-        name: search
-        schema:
-          type: string
-          minLength: 1
-        description: 'Termo de busca para os campos: [ email, team ]'
+        - name: ordering
+          required: false
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+            minLength: 1
+          description: 'Termo de busca para os campos: [ email, team ]'
       tags:
-      - Auth/Users
+        - Auth/Users
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -819,9 +820,9 @@ paths:
       description: Recupera o changelog do projeto.
       summary: Changelog
       tags:
-      - Changelog
+        - Changelog
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -831,22 +832,22 @@ paths:
               examples:
                 Changelog:
                   value:
-                  - version: 0.2.0
-                    released: '2023-11-01'
-                    features:
-                    - Introduzida funcionalidade A.
-                    - Atualização da biblioteca B.
-                    bugfixes:
-                    - Resolvido bug C.
-                    - Aprimorado suporte a D.
-                  - version: 0.1.0
-                    released: '2023-10-01'
-                    features:
-                    - Adicionada nova funcionalidade X.
-                    - Melhorias na interface do usuário.
-                    bugfixes:
-                    - Corrigido erro Y.
-                    - Ajustado problema de desempenho Z.
+                    - version: 0.2.0
+                      released: '2023-11-01'
+                      features:
+                        - Introduzida funcionalidade A.
+                        - Atualização da biblioteca B.
+                      bugfixes:
+                        - Resolvido bug C.
+                        - Aprimorado suporte a D.
+                    - version: 0.1.0
+                      released: '2023-10-01'
+                      features:
+                        - Adicionada nova funcionalidade X.
+                        - Melhorias na interface do usuário.
+                      bugfixes:
+                        - Corrigido erro Y.
+                        - Ajustado problema de desempenho Z.
           description: ''
         '400':
           content:
@@ -944,34 +945,34 @@ paths:
       description: Lista todos os cupons disponíveis.
       summary: Listar Cupons
       parameters:
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: search
-        required: false
-        in: query
-        description: A search term.
-        schema:
-          type: string
+        - name: ordering
+          required: false
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: search
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
       tags:
-      - Coupons
+        - Coupons
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1074,7 +1075,7 @@ paths:
       description: Cria um novo cupom.
       summary: Criar Cupom
       tags:
-      - Coupons
+        - Coupons
       requestBody:
         content:
           application/json:
@@ -1082,7 +1083,7 @@ paths:
               $ref: '#/components/schemas/Coupon'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -1186,15 +1187,15 @@ paths:
       description: Obtém, atualiza ou remove um cupom específico.
       summary: Detalhes do Cupom
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Coupons
+        - Coupons
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1297,13 +1298,13 @@ paths:
       description: Atualiza os detalhes de um cupom existente.
       summary: Atualizar Cupom
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Coupons
+        - Coupons
       requestBody:
         content:
           application/json:
@@ -1311,7 +1312,7 @@ paths:
               $ref: '#/components/schemas/Coupon'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1414,20 +1415,20 @@ paths:
       description: Atualiza parcialmente os detalhes de um cupom existente.
       summary: Atualizar Parcialmente Cupom
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Coupons
+        - Coupons
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PatchedCoupon'
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1530,15 +1531,15 @@ paths:
       description: Remove um cupom existente.
       summary: Remover Cupom
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Coupons
+        - Coupons
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           content:
@@ -1642,9 +1643,9 @@ paths:
       description: Obtém o saldo de cupons disponíveis para o usuário autenticado.
       summary: Saldo de Cupons
       tags:
-      - Coupons
+        - Coupons
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1750,9 +1751,9 @@ paths:
       description: Lista os últimos resgates feitos.
       summary: Resgates Recentes
       tags:
-      - Redemptions
+        - Redemptions
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1858,34 +1859,34 @@ paths:
       description: Lista todos os resgates feitos pelo usuário autenticado.
       summary: Listar Resgates
       parameters:
-      - name: ordering
-        required: false
-        in: query
-        description: Which field to use when ordering the results.
-        schema:
-          type: string
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: search
-        required: false
-        in: query
-        description: A search term.
-        schema:
-          type: string
+        - name: ordering
+          required: false
+          in: query
+          description: Which field to use when ordering the results.
+          schema:
+            type: string
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+        - name: search
+          required: false
+          in: query
+          description: A search term.
+          schema:
+            type: string
       tags:
-      - Redemptions
+        - Redemptions
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -1988,7 +1989,7 @@ paths:
       description: Cria um novo resgate para o cupom especificado.
       summary: Criar Resgate
       tags:
-      - Redemptions
+        - Redemptions
       requestBody:
         content:
           application/json:
@@ -1996,7 +1997,7 @@ paths:
               $ref: '#/components/schemas/CreateRedemption'
         required: true
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '201':
           content:
@@ -2100,15 +2101,15 @@ paths:
       description: Obtém ou remove um resgate específico.
       summary: Detalhes do Resgate
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Redemptions
+        - Redemptions
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '200':
           content:
@@ -2211,15 +2212,15 @@ paths:
       description: Remove um resgate específico.
       summary: Remover Resgate
       parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
       tags:
-      - Redemptions
+        - Redemptions
       security:
-      - jwtAuth: []
+        - jwtAuth: []
       responses:
         '204':
           content:
@@ -2326,122 +2327,122 @@ paths:
         - YAML: application/vnd.oai.openapi
         - JSON: application/vnd.oai.openapi+json
       parameters:
-      - in: query
-        name: format
-        schema:
-          type: string
-          enum:
-          - json
-          - yaml
-      - in: query
-        name: lang
-        schema:
-          type: string
-          enum:
-          - af
-          - ar
-          - ar-dz
-          - ast
-          - az
-          - be
-          - bg
-          - bn
-          - br
-          - bs
-          - ca
-          - ckb
-          - cs
-          - cy
-          - da
-          - de
-          - dsb
-          - el
-          - en
-          - en-au
-          - en-gb
-          - eo
-          - es
-          - es-ar
-          - es-co
-          - es-mx
-          - es-ni
-          - es-ve
-          - et
-          - eu
-          - fa
-          - fi
-          - fr
-          - fy
-          - ga
-          - gd
-          - gl
-          - he
-          - hi
-          - hr
-          - hsb
-          - hu
-          - hy
-          - ia
-          - id
-          - ig
-          - io
-          - is
-          - it
-          - ja
-          - ka
-          - kab
-          - kk
-          - km
-          - kn
-          - ko
-          - ky
-          - lb
-          - lt
-          - lv
-          - mk
-          - ml
-          - mn
-          - mr
-          - ms
-          - my
-          - nb
-          - ne
-          - nl
-          - nn
-          - os
-          - pa
-          - pl
-          - pt
-          - pt-br
-          - ro
-          - ru
-          - sk
-          - sl
-          - sq
-          - sr
-          - sr-latn
-          - sv
-          - sw
-          - ta
-          - te
-          - tg
-          - th
-          - tk
-          - tr
-          - tt
-          - udm
-          - ug
-          - uk
-          - ur
-          - uz
-          - vi
-          - zh-hans
-          - zh-hant
+        - in: query
+          name: format
+          schema:
+            type: string
+            enum:
+              - json
+              - yaml
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum:
+              - af
+              - ar
+              - ar-dz
+              - ast
+              - az
+              - be
+              - bg
+              - bn
+              - br
+              - bs
+              - ca
+              - ckb
+              - cs
+              - cy
+              - da
+              - de
+              - dsb
+              - el
+              - en
+              - en-au
+              - en-gb
+              - eo
+              - es
+              - es-ar
+              - es-co
+              - es-mx
+              - es-ni
+              - es-ve
+              - et
+              - eu
+              - fa
+              - fi
+              - fr
+              - fy
+              - ga
+              - gd
+              - gl
+              - he
+              - hi
+              - hr
+              - hsb
+              - hu
+              - hy
+              - ia
+              - id
+              - ig
+              - io
+              - is
+              - it
+              - ja
+              - ka
+              - kab
+              - kk
+              - km
+              - kn
+              - ko
+              - ky
+              - lb
+              - lt
+              - lv
+              - mk
+              - ml
+              - mn
+              - mr
+              - ms
+              - my
+              - nb
+              - ne
+              - nl
+              - nn
+              - os
+              - pa
+              - pl
+              - pt
+              - pt-br
+              - ro
+              - ru
+              - sk
+              - sl
+              - sq
+              - sr
+              - sr-latn
+              - sv
+              - sw
+              - ta
+              - te
+              - tg
+              - th
+              - tk
+              - tr
+              - tt
+              - udm
+              - ug
+              - uk
+              - ur
+              - uz
+              - vi
+              - zh-hans
+              - zh-hant
       tags:
-      - api
+        - api
       security:
-      - jwtAuth: []
-      - {}
+        - jwtAuth: []
+        - {}
       responses:
         '200':
           content:
@@ -2468,7 +2469,7 @@ paths:
       description: Check the health of the application.
       summary: Health Check
       tags:
-      - Health
+        - Health
       responses:
         '200':
           content:
@@ -2572,7 +2573,7 @@ paths:
       description: Get the version of the application.
       summary: Version
       tags:
-      - Version
+        - Version
       responses:
         '200':
           content:
@@ -2690,8 +2691,8 @@ components:
               type: string
           description: Detalhes do erro
       required:
-      - code
-      - message
+        - code
+        - message
     ChangelogResponse:
       type: object
       properties:
@@ -2709,10 +2710,10 @@ components:
           items:
             type: string
       required:
-      - bugfixes
-      - features
-      - released
-      - version
+        - bugfixes
+        - features
+        - released
+        - version
     Coupon:
       type: object
       properties:
@@ -2741,10 +2742,10 @@ components:
           readOnly: true
           title: Criado em
       required:
-      - code
-      - created_at
-      - description
-      - id
+        - code
+        - created_at
+        - description
+        - id
     CreateRedemption:
       type: object
       properties:
@@ -2752,7 +2753,7 @@ components:
           type: integer
           title: Cupom
       required:
-      - coupon
+        - coupon
     GenericResponse:
       type: object
       description: Serializer genérico para respostas de API.
@@ -2770,7 +2771,7 @@ components:
           nullable: true
           description: Dados adicionais da resposta
       required:
-      - detail
+        - detail
     HealthCheck:
       type: object
       properties:
@@ -2778,7 +2779,7 @@ components:
           type: string
           description: Status of the application
       required:
-      - status
+        - status
     Login:
       type: object
       properties:
@@ -2789,13 +2790,13 @@ components:
           type: string
           writeOnly: true
       required:
-      - email
-      - password
+        - email
+        - password
     PaginatedCouponList:
       type: object
       required:
-      - count
-      - results
+        - count
+        - results
       properties:
         count:
           type: integer
@@ -2824,8 +2825,8 @@ components:
     PaginatedRedemptionList:
       type: object
       required:
-      - count
-      - results
+        - count
+        - results
       properties:
         count:
           type: integer
@@ -2854,8 +2855,8 @@ components:
     PaginatedUserList:
       type: object
       required:
-      - count
-      - results
+        - count
+        - results
       properties:
         count:
           type: integer
@@ -2923,7 +2924,7 @@ components:
           readOnly: true
         coupon:
           allOf:
-          - $ref: '#/components/schemas/Coupon'
+            - $ref: '#/components/schemas/Coupon'
           readOnly: true
         redeemed_at:
           type: string
@@ -2932,13 +2933,13 @@ components:
           title: Resgatado em
         user:
           allOf:
-          - $ref: '#/components/schemas/User'
+            - $ref: '#/components/schemas/User'
           readOnly: true
       required:
-      - coupon
-      - id
-      - redeemed_at
-      - user
+        - coupon
+        - id
+        - redeemed_at
+        - user
     Register:
       type: object
       properties:
@@ -2951,24 +2952,24 @@ components:
           writeOnly: true
         team:
           allOf:
-          - $ref: '#/components/schemas/TeamEnum'
+            - $ref: '#/components/schemas/TeamEnum'
           title: Equipe
         works_since:
           type: string
           format: date
           title: Data de entrada na empresa
       required:
-      - email
-      - password
-      - works_since
+        - email
+        - password
+        - works_since
     TeamEnum:
       enum:
-      - TECNOLOGIA
-      - MARKETING
-      - VENDAS
-      - FINANCEIRO
-      - RH
-      - ENGENHARIA
+        - TECNOLOGIA
+        - MARKETING
+        - VENDAS
+        - FINANCEIRO
+        - RH
+        - ENGENHARIA
       type: string
       description: |-
         * `TECNOLOGIA` - Tecnologia
@@ -2993,10 +2994,10 @@ components:
           type: string
           readOnly: true
       required:
-      - access
-      - email
-      - password
-      - refresh
+        - access
+        - email
+        - password
+        - refresh
     TokenRefresh:
       type: object
       properties:
@@ -3006,8 +3007,8 @@ components:
         refresh:
           type: string
       required:
-      - access
-      - refresh
+        - access
+        - refresh
     User:
       type: object
       properties:
@@ -3034,12 +3035,12 @@ components:
           readOnly: true
           title: Membro da equipe(Administrador)
       required:
-      - email
-      - id
-      - is_active
-      - is_staff
-      - team
-      - works_since
+        - email
+        - id
+        - is_active
+        - is_staff
+        - team
+        - works_since
     UserLogout:
       type: object
       properties:
@@ -3047,7 +3048,7 @@ components:
           type: string
           description: Token de atualização
       required:
-      - refresh
+        - refresh
     Version:
       type: object
       properties:
@@ -3055,7 +3056,7 @@ components:
           type: string
           description: Version of the application
       required:
-      - version
+        - version
   securitySchemes:
     jwtAuth:
       type: http

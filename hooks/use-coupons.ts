@@ -1,11 +1,11 @@
-import { buildSearchString } from "@/app/(resources)/(helpers)/search";
-import { useListCoupons } from "@/lib/generated/hooks/useListCoupons";
+import { buildSearchString } from '@/app/(resources)/(helpers)/search'
+import { useListCoupons } from '@/lib/generated/hooks/useListCoupons'
 
 interface UseCouponsParams {
-  page?: number;
-  page_size?: number;
-  search?: string;
-  ordering?: string;
+  page?: number
+  page_size?: number
+  search?: string
+  ordering?: string
 }
 
 export const useCoupons = ({
@@ -15,7 +15,7 @@ export const useCoupons = ({
   ordering,
 }: UseCouponsParams = {}) => {
   // Construir string de busca
-  const searchString = buildSearchString({ search });
+  const searchString = buildSearchString({ search })
 
   const { data: couponsData, isLoading: isLoadingCoupons } = useListCoupons(
     {
@@ -31,14 +31,14 @@ export const useCoupons = ({
         staleTime: 0, // Sempre considerar dados como stale para forçar refetch
       },
     }
-  );
+  )
 
-  const coupons = couponsData?.data?.results || [];
+  const coupons = couponsData?.data?.results || []
 
   return {
     coupons,
     isLoading: isLoadingCoupons,
     totalCount: couponsData?.data?.count || 0,
     pagination: couponsData?.data,
-  };
-};
+  }
+}

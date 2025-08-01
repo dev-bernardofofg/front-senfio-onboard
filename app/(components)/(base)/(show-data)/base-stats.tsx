@@ -12,15 +12,21 @@ interface BaseStatsProps {
   description: string
 }
 
-export const BaseStats = ({ title, Icon, value, loading, description }: BaseStatsProps) => {
+export const BaseStats = ({
+  title,
+  Icon,
+  value,
+  loading,
+  description,
+}: BaseStatsProps) => {
   return (
     <BaseCard title={title} Icon={Icon} description={description}>
       <Suspense fallback={<Skeleton className="h-8 w-20" />}>
-
         {loading ? (
           <Skeleton className="h-8 w-20" />
         ) : (
-          <motion.div className="text-2xl font-bold"
+          <motion.div
+            className="text-2xl font-bold"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -29,6 +35,6 @@ export const BaseStats = ({ title, Icon, value, loading, description }: BaseStat
           </motion.div>
         )}
       </Suspense>
-    </BaseCard >
+    </BaseCard>
   )
 }

@@ -1,25 +1,30 @@
-import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button';
-import { BaseDialog } from '@/app/(components)/(base)/(portals)/base-dialog';
-import { TrashIcon, XIcon } from 'lucide-react';
-import { useState } from 'react';
+import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
+import { BaseDialog } from '@/app/(components)/(base)/(portals)/base-dialog'
+import { TrashIcon, XIcon } from 'lucide-react'
+import { useState } from 'react'
 
 interface ConfirmDialogProps {
-  onConfirm: () => void;
-  title: string;
-  description: string;
-  trigger: React.ReactNode;
+  onConfirm: () => void
+  title: string
+  description: string
+  trigger: React.ReactNode
 }
 
-export const ConfirmDialog = ({ onConfirm, title, description, trigger }: ConfirmDialogProps) => {
-  const [open, setOpen] = useState(false);
+export const ConfirmDialog = ({
+  onConfirm,
+  title,
+  description,
+  trigger,
+}: ConfirmDialogProps) => {
+  const [open, setOpen] = useState(false)
 
   const handleClose = () => {
-    setOpen(!open);
+    setOpen(!open)
   }
 
   const handleConfirm = () => {
-    onConfirm();
-    handleClose();
+    onConfirm()
+    handleClose()
   }
 
   return (
@@ -35,11 +40,15 @@ export const ConfirmDialog = ({ onConfirm, title, description, trigger }: Confir
           <XIcon className="size-4" />
           Cancelar
         </BaseButton>
-        <BaseButton variant="destructive" onClick={handleConfirm} className="flex-1">
+        <BaseButton
+          variant="destructive"
+          onClick={handleConfirm}
+          className="flex-1"
+        >
           <TrashIcon className="size-4" />
           Confirmar
         </BaseButton>
       </div>
-    </BaseDialog >
+    </BaseDialog>
   )
 }

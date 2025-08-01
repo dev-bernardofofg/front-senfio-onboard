@@ -1,20 +1,23 @@
-"use client";
+'use client'
 
-import { NonStaffOnly, StaffOnly } from "@/app/(components)/(base)/(authorization)/authorized-content";
+import {
+  NonStaffOnly,
+  StaffOnly,
+} from '@/app/(components)/(base)/(authorization)/authorized-content'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarSeparator
-} from "@/components/ui/sidebar";
-import { Gift, Home, Ticket, Users } from "lucide-react";
-import { useTheme } from "next-themes";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { SidebarGroupCustom } from "./sidebar-group";
-import { SidebarItem } from "./sidebar-item";
-import { SidebarProfile } from "./sidebar-profile";
+  SidebarSeparator,
+} from '@/components/ui/sidebar'
+import { Gift, Home, Ticket, Users } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { SidebarGroupCustom } from './sidebar-group'
+import { SidebarItem } from './sidebar-item'
+import { SidebarProfile } from './sidebar-profile'
 
 export const BaseSidebar = () => {
   const { theme } = useTheme()
@@ -25,7 +28,8 @@ export const BaseSidebar = () => {
   }, [])
 
   // Evitar hidratação inconsistente usando um logo padrão até o cliente estar pronto
-  const logoSrc = mounted && theme === "dark" ? "/logo-s3-light.svg" : "/logo-s3-dark.svg"
+  const logoSrc =
+    mounted && theme === 'dark' ? '/logo-s3-light.svg' : '/logo-s3-dark.svg'
 
   return (
     <Sidebar variant="floating">
@@ -56,6 +60,6 @@ export const BaseSidebar = () => {
       <SidebarFooter>
         <SidebarProfile />
       </SidebarFooter>
-    </Sidebar >
-  );
-};
+    </Sidebar>
+  )
+}

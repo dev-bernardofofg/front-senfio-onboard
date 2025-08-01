@@ -48,8 +48,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         deleteCookie('auth_user')
         deleteCookie('tokens')
         router.push('/auth')
-      }
-    }
+      },
+    },
   })
 
   useEffect(() => {
@@ -107,7 +107,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, tokens, setAuth, setTokensOnly, updateUser, signOut }}>
+    <AuthContext.Provider
+      value={{ user, tokens, setAuth, setTokensOnly, updateUser, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   )

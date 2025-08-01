@@ -1,16 +1,16 @@
-import { defineConfig } from "@kubb/core";
-import { pluginClient } from "@kubb/plugin-client";
-import { pluginOas } from "@kubb/plugin-oas";
-import { pluginReactQuery } from "@kubb/plugin-react-query";
-import { pluginTs } from "@kubb/plugin-ts";
+import { defineConfig } from '@kubb/core'
+import { pluginClient } from '@kubb/plugin-client'
+import { pluginOas } from '@kubb/plugin-oas'
+import { pluginReactQuery } from '@kubb/plugin-react-query'
+import { pluginTs } from '@kubb/plugin-ts'
 
 export default defineConfig(() => {
   return {
     input: {
-      path: "./schema.yaml",
+      path: './schema.yaml',
     },
     output: {
-      path: "./lib/generated",
+      path: './lib/generated',
       clean: true,
     },
     plugins: [
@@ -20,30 +20,30 @@ export default defineConfig(() => {
       }),
       pluginTs({
         output: {
-          path: "models",
+          path: 'models',
         },
       }),
       pluginClient({
         output: {
-          path: ".",
+          path: '.',
         },
-        importPath: "../client.ts",
-        dataReturnType: "full",
-        pathParamsType: "object",
+        importPath: '../client.ts',
+        dataReturnType: 'full',
+        pathParamsType: 'object',
       }),
       pluginReactQuery({
         output: {
-          path: "./hooks",
+          path: './hooks',
         },
-        paramsType: "inline",
-        pathParamsType: "object",
+        paramsType: 'inline',
+        pathParamsType: 'object',
         suspense: false,
 
         client: {
-          dataReturnType: "full",
-          importPath: "../../client.ts",
+          dataReturnType: 'full',
+          importPath: '../../client.ts',
         },
       }),
     ],
-  };
-});
+  }
+})

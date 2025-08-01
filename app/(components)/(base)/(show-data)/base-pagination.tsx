@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { BaseButton } from "@/app/(components)/(base)/(clickable)/base-button"
-import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
+import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export interface PaginationData {
   count: number
@@ -23,8 +23,8 @@ interface BasePaginationProps {
 export const BasePagination = ({
   data,
   onPageChange,
-  className = "",
-  showInfo = true
+  className = '',
+  showInfo = true,
 }: BasePaginationProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -35,7 +35,7 @@ export const BasePagination = ({
     next_page,
     page_size,
     previous_page,
-    total_pages
+    total_pages,
   } = data
 
   const handlePageChange = (page: number) => {
@@ -98,7 +98,9 @@ export const BasePagination = ({
   const endItem = Math.min(current_page * page_size, count)
 
   return (
-    <div className={`flex flex-col items-center justify-between gap-4 ${className}`}>
+    <div
+      className={`flex flex-col items-center justify-between gap-4 ${className}`}
+    >
       {/* Informações da paginação */}
       {showInfo && (
         <div className="text-sm text-muted-foreground">
@@ -130,7 +132,7 @@ export const BasePagination = ({
                 </div>
               ) : (
                 <BaseButton
-                  variant={current_page === page ? "default" : "outline"}
+                  variant={current_page === page ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => handlePageChange(page as number)}
                   className="size-8 p-0"
@@ -156,4 +158,4 @@ export const BasePagination = ({
       </div>
     </div>
   )
-} 
+}

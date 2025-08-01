@@ -1,40 +1,41 @@
-
-import { BaseButton } from "@/app/(components)/(base)/(clickable)/base-button"
-import { BaseDialog } from "@/app/(components)/(base)/(portals)/base-dialog"
-import { UserSettingsForm } from "@/app/(resources)/(forms)/(users)/user-settings.form"
-import { FN_UTILS_DATE } from "@/app/(resources)/(helpers)/date"
-import { Badge } from "@/components/ui/badge"
-import { User } from "@/lib/generated/models/User"
+import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
+import { BaseDialog } from '@/app/(components)/(base)/(portals)/base-dialog'
+import { UserSettingsForm } from '@/app/(resources)/(forms)/(users)/user-settings.form'
+import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
+import { Badge } from '@/components/ui/badge'
+import { User } from '@/lib/generated/models/User'
 
 export const usersTableColumns = [
   {
-    header: "Email",
-    accessorKey: "email" as keyof User,
-    className: "font-medium"
+    header: 'Email',
+    accessorKey: 'email' as keyof User,
+    className: 'font-medium',
   },
   {
-    header: "Equipe",
-    accessorKey: "team" as keyof User,
+    header: 'Equipe',
+    accessorKey: 'team' as keyof User,
   },
   {
-    header: "Admissão",
-    accessorKey: "works_since" as keyof User,
-    cell: (value: any) => FN_UTILS_DATE.formatDate(value)
+    header: 'Admissão',
+    accessorKey: 'works_since' as keyof User,
+    cell: (value: any) => FN_UTILS_DATE.formatDate(value),
   },
   {
-    header: "Status",
-    accessorKey: "is_active" as keyof User,
+    header: 'Status',
+    accessorKey: 'is_active' as keyof User,
     cell: (value: any, user: User) => (
       <div className="flex gap-1">
         {user.is_staff && (
-          <Badge variant="default" className="text-xs">Admin</Badge>
+          <Badge variant="default" className="text-xs">
+            Admin
+          </Badge>
         )}
-        <Badge variant={value ? "default" : "secondary"} className="text-xs">
-          {value ? "Ativo" : "Inativo"}
+        <Badge variant={value ? 'default' : 'secondary'} className="text-xs">
+          {value ? 'Ativo' : 'Inativo'}
         </Badge>
       </div>
-    )
-  }
+    ),
+  },
 ]
 
 export const usersTableActions = (user: User) => (
@@ -43,11 +44,7 @@ export const usersTableActions = (user: User) => (
       title="Configurações do Usuário"
       description="Editar informações do usuário e alterar senha"
       trigger={
-        <BaseButton
-          variant="outline"
-          clickAction="edit"
-          className="w-fit"
-        >
+        <BaseButton variant="outline" clickAction="edit" className="w-fit">
           Editar
         </BaseButton>
       }

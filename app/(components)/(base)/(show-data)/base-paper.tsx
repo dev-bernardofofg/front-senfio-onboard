@@ -1,6 +1,6 @@
 interface BasePaperProps {
-  title: string;
-  subtitle: string | React.ReactNode;
+  title: string
+  subtitle: string | React.ReactNode
 }
 
 export const BasePaper = ({ title, subtitle }: BasePaperProps) => {

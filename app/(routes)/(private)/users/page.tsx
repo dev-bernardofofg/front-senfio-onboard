@@ -1,10 +1,13 @@
-"use client"
+'use client'
 
-import { BaseTable } from "@/app/(components)/(base)/(tables)/base-table"
-import { Header } from "@/app/(components)/(layout)/header"
-import { StaggeredFade } from "@/app/(components)/(motion)/staggered-fade"
-import { usersTableActions, usersTableColumns } from "@/app/(resources)/(tables)/users.table"
-import { useListUsers } from "@/lib/generated"
+import { BaseTable } from '@/app/(components)/(base)/(tables)/base-table'
+import { Header } from '@/app/(components)/(layout)/header'
+import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
+import {
+  usersTableActions,
+  usersTableColumns,
+} from '@/app/(resources)/(tables)/users.table'
+import { useListUsers } from '@/lib/generated'
 
 const UsersPage = () => {
   const { data: usersData, isLoading, refetch } = useListUsers()
@@ -27,4 +30,4 @@ const UsersPage = () => {
   )
 }
 
-export default UsersPage 
+export default UsersPage

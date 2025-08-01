@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import React from "react";
+import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
+import React from 'react'
 
 interface FadeProps {
-  children: React.ReactNode;
-  duration?: number;
-  delay?: number;
-  direction?: "up" | "down" | "left" | "right";
-  distance?: number;
-  className?: string;
+  children: React.ReactNode
+  duration?: number
+  delay?: number
+  direction?: 'up' | 'down' | 'left' | 'right'
+  distance?: number
+  className?: string
 }
 
 export const Fade = ({
@@ -22,17 +22,17 @@ export const Fade = ({
   className,
 }: FadeProps) => {
   const getDirectionalAnimation = () => {
-    if (!direction) return {};
+    if (!direction) return {}
 
     const directionMap = {
       up: { y: distance },
       down: { y: -distance },
       left: { x: distance },
       right: { x: -distance },
-    };
+    }
 
-    return directionMap[direction];
-  };
+    return directionMap[direction]
+  }
 
   return (
     <motion.main
@@ -52,11 +52,11 @@ export const Fade = ({
       transition={{
         duration: duration,
         delay: delay,
-        ease: "easeOut",
+        ease: 'easeOut',
       }}
-      className={cn("w-full h-screen", className)}
+      className={cn('w-full h-screen', className)}
     >
       {children}
-    </motion.main >
-  );
-};
+    </motion.main>
+  )
+}

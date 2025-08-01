@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { BaseFilters } from '@/app/(components)/(base)/(form)/base-filters'
 import { BaseEmptyData } from '@/app/(components)/(base)/(show-data)/base-empty-data'
@@ -7,7 +7,11 @@ import { BasePagination } from '@/app/(components)/(base)/(show-data)/base-pagin
 import { CupomCard } from '@/app/(components)/(card)/cupom-card'
 import { Header } from '@/app/(components)/(layout)/header'
 import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
-import { RedemptionFiltersDefaultValues, RedemptionFiltersSchema, RedemptionFiltersType } from '@/app/(resources)/(schemas)/filters.schema'
+import {
+  RedemptionFiltersDefaultValues,
+  RedemptionFiltersSchema,
+  RedemptionFiltersType,
+} from '@/app/(resources)/(schemas)/filters.schema'
 import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
 import { Tickets } from 'lucide-react'
@@ -22,13 +26,17 @@ const MyCouponsPage = () => {
     handleResetPage,
     validatePage,
     getPaginationData,
-    pageSize
+    pageSize,
   } = usePagination<RedemptionFiltersType>({
     defaultValues: RedemptionFiltersDefaultValues,
-    pageSize: 10
+    pageSize: 10,
   })
 
-  const { redemptions, isLoading: isLoadingRedemptions, totalCount } = useRedemptions({
+  const {
+    redemptions,
+    isLoading: isLoadingRedemptions,
+    totalCount,
+  } = useRedemptions({
     totalCount: 1000,
     search: filters.search || undefined,
   })
@@ -69,7 +77,7 @@ const MyCouponsPage = () => {
             schema={RedemptionFiltersSchema}
             defaultValues={filters}
             onFiltersChange={handleFiltersChange}
-          />
+          />,
         ]}
       />
       <StaggeredFade className="w-full p-3 space-y-3">
@@ -82,8 +90,11 @@ const MyCouponsPage = () => {
         )}
 
         {uniqueCoupons.length > 0 && !isLoadingRedemptions && (
-          <StaggeredFade className="grid gap-4 base:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" variant="contentWithPagination">
-            {paginatedCoupons.map((redemption) => (
+          <StaggeredFade
+            className="grid gap-4 base:grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+            variant="contentWithPagination"
+          >
+            {paginatedCoupons.map(redemption => (
               <CupomCard
                 key={redemption.coupon.id}
                 coupon={redemption.coupon}
@@ -94,13 +105,15 @@ const MyCouponsPage = () => {
         )}
 
         {/* Estado vazio apenas quando há busca sem resultados ou erro na paginação */}
-        {uniqueCoupons.length === 0 && !isLoadingRedemptions && (filters.search || totalCount === 0) && (
-          <BaseEmptyData
-            Icon={Tickets}
-            title="Nenhum resgate encontrado"
-            onClick={handleResetPage}
-          />
-        )}
+        {uniqueCoupons.length === 0 &&
+          !isLoadingRedemptions &&
+          (filters.search || totalCount === 0) && (
+            <BaseEmptyData
+              Icon={Tickets}
+              title="Nenhum resgate encontrado"
+              onClick={handleResetPage}
+            />
+          )}
 
         {/* Paginação */}
         {uniqueCoupons.length > pageSize && !isLoadingRedemptions && (

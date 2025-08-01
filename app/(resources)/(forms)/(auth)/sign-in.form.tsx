@@ -9,7 +9,11 @@ import { Login200, useLogin } from '@/lib/generated'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { SignInDefaultValues, SignInSchema, SignInSchemaType } from './sign-in.schema'
+import {
+  SignInDefaultValues,
+  SignInSchema,
+  SignInSchemaType,
+} from './sign-in.schema'
 
 export const SignInForm = () => {
   const { setTokensOnly } = useAuth()
@@ -31,7 +35,7 @@ export const SignInForm = () => {
       onError: (error: any) => {
         toast.error(error.data.message)
       },
-    }
+    },
   })
 
   const onSubmit = (data: SignInSchemaType) => {
@@ -69,5 +73,5 @@ export const SignInForm = () => {
         </BaseButton>
       </BaseForm>
     </Form>
-  );
+  )
 }

@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu'
 import { Form } from '@/components/ui/form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Filter, X } from 'lucide-react'
@@ -25,12 +25,12 @@ interface BaseFiltersProps<T = Record<string, unknown>> {
   showClearButton?: boolean
 }
 
-export const BaseFilters = <T = Record<string, unknown>>({
+export const BaseFilters = <T = Record<string, unknown>,>({
   schema,
   defaultValues,
   onFiltersChange,
-  className = "",
-  showClearButton = true
+  className = '',
+  showClearButton = true,
 }: BaseFiltersProps<T>) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -38,7 +38,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
     resolver: zodResolver(schema),
     defaultValues: {
       ...defaultValues,
-      ordering: defaultValues.ordering || "-created_at"
+      ordering: defaultValues.ordering || '-created_at',
     },
   })
 
@@ -49,7 +49,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
     const cleanedData = Object.fromEntries(
       Object.entries(data).map(([key, value]) => [
         key,
-        value === "" ? undefined : value
+        value === '' ? undefined : value,
       ])
     )
     onFiltersChange(cleanedData as T)
@@ -61,8 +61,8 @@ export const BaseFilters = <T = Record<string, unknown>>({
     onFiltersChange(null as T)
   }
 
-  const hasFilters = Object.values(form.watch()).some(value =>
-    value !== undefined && value !== "" && value !== "all"
+  const hasFilters = Object.values(form.watch()).some(
+    value => value !== undefined && value !== '' && value !== 'all'
   )
 
   return (
@@ -76,7 +76,10 @@ export const BaseFilters = <T = Record<string, unknown>>({
         <div className="space-y-4">
           {/* Formulário de filtros */}
           <Form {...form}>
-            <BaseForm onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+            <BaseForm
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-3"
+            >
               {/* Campo de busca geral */}
               {!!schema.shape.search && (
                 <BaseInput
@@ -91,12 +94,10 @@ export const BaseFilters = <T = Record<string, unknown>>({
                   control={form.control}
                   name="ordering"
                   placeholder="Ordenar por"
-                  options={
-                    [
-                      { label: "Mais recentes", value: "-created_at" },
-                      { label: "Mais antigos", value: "created_at" },
-                    ]
-                  }
+                  options={[
+                    { label: 'Mais recentes', value: '-created_at' },
+                    { label: 'Mais antigos', value: 'created_at' },
+                  ]}
                 />
               )}
               <div className="flex gap-2 pt-2">
@@ -112,11 +113,7 @@ export const BaseFilters = <T = Record<string, unknown>>({
                     Limpar
                   </Button>
                 )}
-                <Button
-                  type="submit"
-                  size="sm"
-                  className="flex-1"
-                >
+                <Button type="submit" size="sm" className="flex-1">
                   <Filter className="size-4" />
                   Aplicar
                 </Button>
@@ -127,4 +124,4 @@ export const BaseFilters = <T = Record<string, unknown>>({
       </DropdownMenuContent>
     </DropdownMenu>
   )
-} 
+}

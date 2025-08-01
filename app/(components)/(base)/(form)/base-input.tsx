@@ -4,41 +4,43 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn, mergeRefs } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { Eye, EyeOff, LoaderCircle } from "lucide-react";
-import React, { forwardRef, ReactNode, useRef, useState } from "react";
-import { Control, FieldValues, Path } from "react-hook-form";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { cn, mergeRefs } from '@/lib/utils'
+import { motion } from 'framer-motion'
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react'
+import React, { forwardRef, ReactNode, useRef, useState } from 'react'
+import { Control, FieldValues, Path } from 'react-hook-form'
 
 // Função para aplicar máscara de dinheiro
 const maskMoney = (value: string) => {
   return value
     .replace(/\D/g, '')
     .replace(/(\d)(\d{2})$/, '$1,$2')
-    .replace(/(?=(\d{3})+(\D))\B/g, '.');
-};
+    .replace(/(?=(\d{3})+(\D))\B/g, '.')
+}
 
 // Ícone para dinheiro
 const MoneyIcon = ({ className }: { className?: string }) => (
-  <span className={cn("font-semibold text-muted-foreground", className)}>R$</span>
-);
+  <span className={cn('font-semibold text-muted-foreground', className)}>
+    R$
+  </span>
+)
 
 export interface IBaseInput<T extends FieldValues> {
-  control: Control<T>;
-  name: Path<T>;
-  label?: string;
-  placeholder?: string;
-  Icon?: React.ComponentType<{ className?: string }>;
-  type?: string;
-  description?: string | ReactNode;
-  readOnly?: boolean;
-  showError?: boolean;
-  className?: string;
-  rightElement?: ReactNode;
-  isLoading?: boolean;
-  autoFocus?: boolean;
+  control: Control<T>
+  name: Path<T>
+  label?: string
+  placeholder?: string
+  Icon?: React.ComponentType<{ className?: string }>
+  type?: string
+  description?: string | ReactNode
+  readOnly?: boolean
+  showError?: boolean
+  className?: string
+  rightElement?: ReactNode
+  isLoading?: boolean
+  autoFocus?: boolean
 }
 
 export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
@@ -46,14 +48,14 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
     {
       control,
       name,
-      label = "",
+      label = '',
       placeholder,
       Icon,
-      description = "",
-      type = "text",
+      description = '',
+      type = 'text',
       readOnly = false,
       showError = true,
-      className = "",
+      className = '',
       rightElement,
       isLoading,
       autoFocus,
@@ -61,14 +63,15 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
     },
     ref
   ) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const isPassword = type === "password";
-    const isMoney = type === "money";
-    const inputType = isPassword && showPassword ? "text" : (isMoney ? "text" : type);
+    const [showPassword, setShowPassword] = useState(false)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const isPassword = type === 'password'
+    const isMoney = type === 'money'
+    const inputType =
+      isPassword && showPassword ? 'text' : isMoney ? 'text' : type
 
     // Determina qual ícone usar: o fornecido pelo usuário, o de dinheiro, ou nenhum
-    const displayIcon = Icon || (isMoney ? MoneyIcon : undefined);
+    const displayIcon = Icon || (isMoney ? MoneyIcon : undefined)
 
     return (
       <FormField
@@ -77,30 +80,34 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
         render={({ field, fieldState }) => {
           const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (isMoney) {
-              const maskedValue = maskMoney(e.target.value);
-              field.onChange(maskedValue);
-            } else if (type === "number") {
-              const value = e.target.value;
+              const maskedValue = maskMoney(e.target.value)
+              field.onChange(maskedValue)
+            } else if (type === 'number') {
+              const value = e.target.value
               // Converte string vazia para null, ou converte para número
-              const numericValue = value === "" ? null : Number(value);
-              field.onChange(numericValue);
+              const numericValue = value === '' ? null : Number(value)
+              field.onChange(numericValue)
             } else {
-              field.onChange(e);
+              field.onChange(e)
             }
-          };
+          }
 
           return (
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               <FormItem>
                 {label && (
                   <div className="flex justify-between">
                     {fieldState.error && showError ? (
-                      <FormLabel className="text-destructive" >{fieldState.error.message}</FormLabel>
-                    ) : <FormLabel>{label}</FormLabel>}
+                      <FormLabel className="text-destructive">
+                        {fieldState.error.message}
+                      </FormLabel>
+                    ) : (
+                      <FormLabel>{label}</FormLabel>
+                    )}
                   </div>
                 )}
                 <FormControl>
@@ -111,14 +118,14 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
                   ) : (
                     <motion.div
                       className={cn(
-                        "relative group rounded-md border focus-within:border-primary focus-within:ring-0.5 focus-within:ring-primary focus-within:outline-hidden",
-                        displayIcon && "pl-6",
-                        (isPassword || readOnly) && "pr-10",
-                        rightElement && "pr-24",
+                        'relative group rounded-md border focus-within:border-primary focus-within:ring-0.5 focus-within:ring-primary focus-within:outline-hidden',
+                        displayIcon && 'pl-6',
+                        (isPassword || readOnly) && 'pr-10',
+                        rightElement && 'pr-24',
                         className
                       )}
                       transition={{
-                        type: "spring",
+                        type: 'spring',
                         stiffness: 300,
                         damping: 20,
                       }}
@@ -130,9 +137,9 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
                         value={
                           isMoney && field?.value
                             ? maskMoney(field.value)
-                            : type === "number"
-                              ? (field?.value?.toString() || "")
-                              : (field?.value || "")
+                            : type === 'number'
+                              ? field?.value?.toString() || ''
+                              : field?.value || ''
                         }
                         ref={mergeRefs(ref, field.ref, inputRef)}
                         type={inputType}
@@ -145,17 +152,18 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
                       {displayIcon && (
                         <FormLabel>
                           {React.createElement(displayIcon, {
-                            className: "absolute left-3 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-input-hover"
+                            className:
+                              'absolute left-3 top-1/2 -translate-y-1/2 size-5 text-muted-foreground group-focus-within:text-input-hover',
                           })}
                         </FormLabel>
                       )}
                       {isPassword && (
                         <button
                           type="button"
-                          onClick={() => setShowPassword((prev) => !prev)}
+                          onClick={() => setShowPassword(prev => !prev)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-gray-600 group-focus-within:text-input-hover"
                           aria-label={
-                            showPassword ? "Hide password" : "Show password"
+                            showPassword ? 'Hide password' : 'Show password'
                           }
                         >
                           {showPassword ? (
@@ -178,11 +186,11 @@ export const BaseInput = forwardRef<HTMLInputElement, IBaseInput<any>>(
                 )}
               </FormItem>
             </motion.div>
-          );
+          )
         }}
       />
-    );
+    )
   }
-);
+)
 
-BaseInput.displayName = "BaseInput";
+BaseInput.displayName = 'BaseInput'

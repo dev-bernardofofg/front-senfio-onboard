@@ -7,32 +7,26 @@ Este projeto foi desenvolvido como parte de um processo seletivo para a vaga de 
 ## ✅ Tecnologias e Ferramentas Utilizadas
 
 - **Next.js (App Router)**
-
   - Rotas protegidas com autenticação via JWT
   - Implementação de refresh token
   - Uso de **Server Components**
 
 - **TypeScript**
-
   - Tipagem estática para maior segurança e legibilidade do código
   - Validação com **Zod** + `react-hook-form`
 
 - **React Query**
-
   - Exemplos: Cache, background fetching, controle de estados e paginação.
 
 - **Tailwind CSS**
-
   - Design responsivo com utilitários
   - Componentes reutilizáveis como botões, modais, badges
 
 - **Docker + Docker Compose**
-
   - Ambiente de desenvolvimento containerizado
   - Suporte completo ao comando `docker compose up`
 
 - **CI com GitHub Actions**
-
   - Pipeline com etapas de lint, format, testes e build
 
 - **Kubb**

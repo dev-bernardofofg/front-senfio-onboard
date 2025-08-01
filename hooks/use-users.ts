@@ -1,10 +1,10 @@
-import { useListUsers } from "@/lib/generated/hooks/useListUsers";
+import { useListUsers } from '@/lib/generated/hooks/useListUsers'
 
 interface UseUsersParams {
-  page?: number;
-  page_size?: number;
-  search?: string;
-  ordering?: string;
+  page?: number
+  page_size?: number
+  search?: string
+  ordering?: string
 }
 
 export const useUsers = ({
@@ -27,14 +27,14 @@ export const useUsers = ({
         staleTime: 0, // Sempre considerar dados como stale para forçar refetch
       },
     }
-  );
+  )
 
-  const users = usersData?.data?.results || [];
+  const users = usersData?.data?.results || []
 
   return {
     users,
     isLoading: isLoadingUsers,
     totalCount: usersData?.data?.count || 0,
     pagination: usersData?.data,
-  };
-};
+  }
+}

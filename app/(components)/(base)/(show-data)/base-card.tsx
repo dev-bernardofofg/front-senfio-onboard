@@ -1,4 +1,11 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { LucideIcon } from 'lucide-react'
 import React from 'react'
 
@@ -10,7 +17,13 @@ interface BaseCardProps {
   footer?: React.ReactNode
 }
 
-export const BaseCard = ({ title, Icon, description, children, footer }: BaseCardProps) => {
+export const BaseCard = ({
+  title,
+  Icon,
+  description,
+  children,
+  footer,
+}: BaseCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -20,9 +33,7 @@ export const BaseCard = ({ title, Icon, description, children, footer }: BaseCar
         </CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
+      <CardContent>{children}</CardContent>
       {footer && <CardFooter>{footer}</CardFooter>}
     </Card>
   )

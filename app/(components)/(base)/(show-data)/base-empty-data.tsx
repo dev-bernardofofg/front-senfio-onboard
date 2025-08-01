@@ -1,5 +1,5 @@
-import { LucideIcon } from "lucide-react"
-import { BaseButton } from "../(clickable)/base-button"
+import { LucideIcon } from 'lucide-react'
+import { BaseButton } from '../(clickable)/base-button'
 
 interface BaseEmptyDataProps {
   Icon: LucideIcon

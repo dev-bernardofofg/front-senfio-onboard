@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
 import { BaseForm } from '@/app/(components)/(base)/(form)/base-form'
@@ -8,14 +8,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { ChangePasswordDefaultValues, ChangePasswordSchema, ChangePasswordSchemaType } from './change-password.schema'
+import {
+  ChangePasswordDefaultValues,
+  ChangePasswordSchema,
+  ChangePasswordSchemaType,
+} from './change-password.schema'
 
 interface ChangePasswordFormProps {
   onSubmit: (data: ChangePasswordSchemaType) => Promise<void>
   isLoading?: boolean
 }
 
-export const ChangePasswordForm = ({ onSubmit, isLoading = false }: ChangePasswordFormProps) => {
+export const ChangePasswordForm = ({
+  onSubmit,
+  isLoading = false,
+}: ChangePasswordFormProps) => {
   const router = useRouter()
 
   const form = useForm<ChangePasswordSchemaType>({
@@ -85,4 +92,4 @@ export const ChangePasswordForm = ({ onSubmit, isLoading = false }: ChangePasswo
       </BaseForm>
     </Form>
   )
-} 
+}

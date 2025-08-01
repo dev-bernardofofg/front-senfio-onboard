@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useChangePassword, User } from "@/lib/generated"
-import { Lock, User as UserIcon } from "lucide-react"
-import { ChangePasswordForm } from "./change-password.form"
-import { ChangePasswordSchemaType } from "./change-password.schema"
-import { EditUserForm } from "./edit-user.form"
-import { EditUserSchemaType } from "./edit-user.schema"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useChangePassword, User } from '@/lib/generated'
+import { Lock, User as UserIcon } from 'lucide-react'
+import { ChangePasswordForm } from './change-password.form'
+import { ChangePasswordSchemaType } from './change-password.schema'
+import { EditUserForm } from './edit-user.form'
+import { EditUserSchemaType } from './edit-user.schema'
 
 interface UserSettingsFormProps {
   user?: User
@@ -14,7 +14,11 @@ interface UserSettingsFormProps {
   isLoading?: boolean
 }
 
-export const UserSettingsForm = ({ user, onEditSubmit, isLoading = false }: UserSettingsFormProps) => {
+export const UserSettingsForm = ({
+  user,
+  onEditSubmit,
+  isLoading = false,
+}: UserSettingsFormProps) => {
   const changePasswordMutation = useChangePassword()
 
   const handleChangePassword = async (data: ChangePasswordSchemaType) => {
@@ -22,7 +26,7 @@ export const UserSettingsForm = ({ user, onEditSubmit, isLoading = false }: User
       data: {
         current_password: data.current_password,
         new_password: data.new_password,
-      }
+      },
     })
   }
 
@@ -55,4 +59,4 @@ export const UserSettingsForm = ({ user, onEditSubmit, isLoading = false }: User
       </TabsContent>
     </Tabs>
   )
-} 
+}

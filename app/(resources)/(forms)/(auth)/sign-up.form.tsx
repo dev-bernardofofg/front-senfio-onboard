@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
 import { BaseDatePicker } from '@/app/(components)/(base)/(form)/base-date-picker'
@@ -11,7 +11,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { SignUpDefaultValues, SignUpSchema, SignUpSchemaType } from './sign-up.schema'
+import {
+  SignUpDefaultValues,
+  SignUpSchema,
+  SignUpSchemaType,
+} from './sign-up.schema'
 
 export const SignUpForm = () => {
   const router = useRouter()
@@ -28,28 +32,31 @@ export const SignUpForm = () => {
     mutation: {
       onSuccess: ({ data: userData }: { data: User }) => {
         toast.success('Usuário criado com sucesso')
-        login({
-          data: {
-            email: form.getValues('email'),
-            password: form.getValues('password'),
+        login(
+          {
+            data: {
+              email: form.getValues('email'),
+              password: form.getValues('password'),
+            },
           },
-        }, {
-          onSuccess: ({ data: tokenData }: { data: Login200 }) => {
-            setAuth(userData, {
-              access: tokenData.access,
-              refresh: tokenData.refresh,
-            })
-            router.push('/dashboard')
-          },
-          onError: (loginError: any) => {
-            const errorMessage = loginError.data?.errors
-              ? Object.values(loginError.data.errors).join(', ')
-              : 'Erro ao fazer login após registro'
-            toast.error('Erro ao fazer login após registro', {
-              description: errorMessage,
-            })
+          {
+            onSuccess: ({ data: tokenData }: { data: Login200 }) => {
+              setAuth(userData, {
+                access: tokenData.access,
+                refresh: tokenData.refresh,
+              })
+              router.push('/dashboard')
+            },
+            onError: (loginError: any) => {
+              const errorMessage = loginError.data?.errors
+                ? Object.values(loginError.data.errors).join(', ')
+                : 'Erro ao fazer login após registro'
+              toast.error('Erro ao fazer login após registro', {
+                description: errorMessage,
+              })
+            },
           }
-        })
+        )
       },
       onError: (error: any) => {
         const errorMessage = error.data?.errors
@@ -58,8 +65,8 @@ export const SignUpForm = () => {
         toast.error('Erro ao criar usuário', {
           description: errorMessage,
         })
-      }
-    }
+      },
+    },
   })
 
   const onSubmit = (data: SignUpSchemaType) => {
@@ -74,7 +81,7 @@ export const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <BaseForm onSubmit={form.handleSubmit(onSubmit)} >
+      <BaseForm onSubmit={form.handleSubmit(onSubmit)}>
         <BaseInput
           control={form.control}
           name="email"
@@ -104,4 +111,4 @@ export const SignUpForm = () => {
       </BaseForm>
     </Form>
   )
-} 
+}

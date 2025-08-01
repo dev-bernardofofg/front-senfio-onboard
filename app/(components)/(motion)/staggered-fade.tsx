@@ -1,90 +1,101 @@
-import { AnimatePresence, easeOut, motion } from "framer-motion";
-import { ReactNode } from "react";
+import { AnimatePresence, easeOut, motion } from 'framer-motion'
+import { ReactNode } from 'react'
 
 interface StaggeredFadeProps {
-  children: ReactNode;
-  className?: string;
-  staggerDelay?: number;
-  duration?: number;
-  initialDelay?: number;
-  variant?: "default" | "wrapper" | "page" | "slide-up" | "slide-down" | "scale" | "cards" | "content" | "contentWithPagination";
-  isLoading?: boolean;
-  loadingContent?: ReactNode;
+  children: ReactNode
+  className?: string
+  staggerDelay?: number
+  duration?: number
+  initialDelay?: number
+  variant?:
+    | 'default'
+    | 'wrapper'
+    | 'page'
+    | 'slide-up'
+    | 'slide-down'
+    | 'scale'
+    | 'cards'
+    | 'content'
+    | 'contentWithPagination'
+  isLoading?: boolean
+  loadingContent?: ReactNode
 }
 
 const variants = {
   default: {
-    containerClass: "",
+    containerClass: '',
     initial: { opacity: 0, y: -4 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3, ease: easeOut }
+    transition: { duration: 0.3, ease: easeOut },
   },
   wrapper: {
-    containerClass: "overflow-hidden",
+    containerClass: 'overflow-hidden',
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, ease: easeOut }
+    transition: { duration: 0.4, ease: easeOut },
   },
   page: {
-    containerClass: "overflow-hidden max-h-[calc(100dvh-1rem)] h-screen p-3 bg-card rounded-lg border border-border",
+    containerClass:
+      'overflow-hidden max-h-[calc(100dvh-1rem)] h-screen p-3 bg-card rounded-lg border border-border',
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: easeOut }
+    transition: { duration: 0.5, ease: easeOut },
   },
   content: {
-    containerClass: "overflow-y-auto max-h-[calc(100dvh-6rem)] h-screen",
+    containerClass: 'overflow-y-auto max-h-[calc(100dvh-6rem)] h-screen',
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: easeOut }
+    transition: { duration: 0.5, ease: easeOut },
   },
   contentWithPagination: {
-    containerClass: "overflow-y-auto max-h-[calc(100dvh-13rem)] h-fit",
+    containerClass: 'overflow-y-auto max-h-[calc(100dvh-13rem)] h-fit',
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: easeOut }
+    transition: { duration: 0.5, ease: easeOut },
   },
-  "slide-up": {
-    containerClass: "overflow-hidden",
+  'slide-up': {
+    containerClass: 'overflow-hidden',
     initial: { opacity: 0, y: 50 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, ease: easeOut }
+    transition: { duration: 0.4, ease: easeOut },
   },
-  "slide-down": {
-    containerClass: "overflow-hidden",
+  'slide-down': {
+    containerClass: 'overflow-hidden',
     initial: { opacity: 0, y: -50 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, ease: easeOut }
+    transition: { duration: 0.4, ease: easeOut },
   },
   scale: {
-    containerClass: "",
+    containerClass: '',
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
-    transition: { duration: 0.3, ease: easeOut }
+    transition: { duration: 0.3, ease: easeOut },
   },
   cards: {
-    containerClass: "contents",
+    containerClass: 'contents',
     initial: { opacity: 0, y: 30 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: easeOut }
-  }
-};
+    transition: { duration: 0.5, ease: easeOut },
+  },
+}
 
 export const StaggeredFade = ({
   children,
-  className = "",
+  className = '',
   staggerDelay = 0.2,
   duration,
   initialDelay = 0.1,
-  variant = "default",
+  variant = 'default',
   isLoading,
-  loadingContent
+  loadingContent,
 }: StaggeredFadeProps) => {
-  const selectedVariant = variants[variant];
-  const finalDuration = duration || selectedVariant.transition.duration;
-  const containerClassName = `${className} ${selectedVariant.containerClass}`.trim();
+  const selectedVariant = variants[variant]
+  const finalDuration = duration || selectedVariant.transition.duration
+  const containerClassName =
+    `${className} ${selectedVariant.containerClass}`.trim()
 
   // Variante especial para cards com loading
-  if (variant === "cards") {
+  if (variant === 'cards') {
     return (
       <div className={containerClassName}>
         <AnimatePresence mode="wait">
@@ -97,24 +108,22 @@ export const StaggeredFade = ({
               transition={{ duration: 0.3 }}
               className="contents"
             >
-              {Array.isArray(loadingContent) ? (
-                loadingContent.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.1,
-                      ease: "easeOut"
-                    }}
-                  >
-                    {item}
-                  </motion.div>
-                ))
-              ) : (
-                loadingContent
-              )}
+              {Array.isArray(loadingContent)
+                ? loadingContent.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: index * 0.1,
+                        ease: 'easeOut',
+                      }}
+                    >
+                      {item}
+                    </motion.div>
+                  ))
+                : loadingContent}
             </motion.div>
           ) : (
             <motion.div
@@ -134,7 +143,7 @@ export const StaggeredFade = ({
                     transition={{
                       ...selectedVariant.transition,
                       duration: finalDuration,
-                      delay: initialDelay + (index * staggerDelay)
+                      delay: initialDelay + index * staggerDelay,
                     }}
                   >
                     {child}
@@ -147,7 +156,7 @@ export const StaggeredFade = ({
                   transition={{
                     ...selectedVariant.transition,
                     duration: finalDuration,
-                    delay: initialDelay
+                    delay: initialDelay,
                   }}
                 >
                   {children}
@@ -157,7 +166,7 @@ export const StaggeredFade = ({
           )}
         </AnimatePresence>
       </div>
-    );
+    )
   }
 
   return (
@@ -171,7 +180,7 @@ export const StaggeredFade = ({
             transition={{
               ...selectedVariant.transition,
               duration: finalDuration,
-              delay: initialDelay + (index * staggerDelay)
+              delay: initialDelay + index * staggerDelay,
             }}
             className="w-full"
           >
@@ -185,12 +194,12 @@ export const StaggeredFade = ({
           transition={{
             ...selectedVariant.transition,
             duration: finalDuration,
-            delay: initialDelay
+            delay: initialDelay,
           }}
         >
           {children}
         </motion.div>
       )}
     </div>
-  );
-}; 
+  )
+}

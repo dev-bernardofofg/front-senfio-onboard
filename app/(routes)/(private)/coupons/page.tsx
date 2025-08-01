@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { StaffOnly } from '@/app/(components)/(base)/(authorization)/authorized-content'
 import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
@@ -11,7 +11,11 @@ import { CupomCard } from '@/app/(components)/(card)/cupom-card'
 import { Header } from '@/app/(components)/(layout)/header'
 import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
 import { UpsertCouponForm } from '@/app/(resources)/(forms)/(coupons)/upsert-coupom.form'
-import { CouponFiltersDefaultValues, CouponFiltersSchema, CouponFiltersType } from '@/app/(resources)/(schemas)/filters.schema'
+import {
+  CouponFiltersDefaultValues,
+  CouponFiltersSchema,
+  CouponFiltersType,
+} from '@/app/(resources)/(schemas)/filters.schema'
 import { useCoupons } from '@/hooks/use-coupons'
 import { usePagination } from '@/hooks/use-pagination'
 import { useRedemptions } from '@/hooks/use-redemptions'
@@ -25,13 +29,18 @@ export default function CouponsPage() {
     handleFiltersChange,
     handleResetPage,
     validatePage,
-    getPaginationData
+    getPaginationData,
   } = usePagination<CouponFiltersType>({
     defaultValues: CouponFiltersDefaultValues,
-    pageSize: 10
+    pageSize: 10,
   })
 
-  const { coupons, isLoading: isLoadingCoupons, totalCount, pagination } = useCoupons({
+  const {
+    coupons,
+    isLoading: isLoadingCoupons,
+    totalCount,
+    pagination,
+  } = useCoupons({
     page: currentPage,
     page_size: 10,
     search: filters.search || undefined,
@@ -39,7 +48,7 @@ export default function CouponsPage() {
   })
 
   const { redemptions, isLoading: isLoadingRedemptions } = useRedemptions({
-    totalCount: totalCount
+    totalCount: totalCount,
   })
 
   const isLoading = isLoadingCoupons || isLoadingRedemptions
@@ -59,15 +68,18 @@ export default function CouponsPage() {
             defaultValues={filters}
             onFiltersChange={handleFiltersChange}
           />,
-          <StaffOnly>
+          <StaffOnly key="create-coupon">
             <BaseDialog
-              key="create-coupon"
               title="Criar Cupom"
-              trigger={<BaseButton variant="outline" clickAction='create' >Criar Cupom</BaseButton>}
+              trigger={
+                <BaseButton variant="outline" clickAction="create">
+                  Criar Cupom
+                </BaseButton>
+              }
             >
               <UpsertCouponForm />
             </BaseDialog>
-          </StaffOnly>
+          </StaffOnly>,
         ]}
       />
       <StaggeredFade className="w-full p-3 space-y-3">
@@ -79,7 +91,7 @@ export default function CouponsPage() {
             loadingContent={loadingCards}
             staggerDelay={0.1}
           >
-            {coupons.map((coupon) => (
+            {coupons.map(coupon => (
               <CupomCard
                 key={coupon.id}
                 coupon={coupon}
@@ -89,15 +101,21 @@ export default function CouponsPage() {
           </StaggeredFade>
         </div>
 
-        {coupons.length === 0 && !isLoading && (filters.search || !pagination) && (
-          <StaggeredFade variant="slide-up">
-            <BaseEmptyData
-              Icon={Tickets}
-              title={filters.search ? "Nenhum cupom encontrado" : "Erro ao carregar cupons"}
-              onClick={handleResetPage}
-            />
-          </StaggeredFade>
-        )}
+        {coupons.length === 0 &&
+          !isLoading &&
+          (filters.search || !pagination) && (
+            <StaggeredFade variant="slide-up">
+              <BaseEmptyData
+                Icon={Tickets}
+                title={
+                  filters.search
+                    ? 'Nenhum cupom encontrado'
+                    : 'Erro ao carregar cupons'
+                }
+                onClick={handleResetPage}
+              />
+            </StaggeredFade>
+          )}
 
         {pagination && pagination.count > 10 && (
           <BasePagination
@@ -109,4 +127,4 @@ export default function CouponsPage() {
       </StaggeredFade>
     </StaggeredFade>
   )
-} 
+}

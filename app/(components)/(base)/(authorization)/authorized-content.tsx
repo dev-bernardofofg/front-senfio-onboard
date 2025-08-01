@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import { useAuth } from "@/app/(contexts)/auth.context"
-import { ReactNode } from "react"
+import { useAuth } from '@/app/(contexts)/auth.context'
+import { ReactNode } from 'react'
 
 interface AuthorizedContentProps {
   children: ReactNode
@@ -14,7 +14,7 @@ export const AuthorizedContent = ({
   children,
   requireStaff = false,
   requireNonStaff = false,
-  fallback = null
+  fallback = null,
 }: AuthorizedContentProps) => {
   const { user } = useAuth()
 
@@ -38,15 +38,27 @@ export const AuthorizedContent = ({
 }
 
 // Componente específico para conteúdo apenas para staff
-export const StaffOnly = ({ children, fallback }: { children: ReactNode, fallback?: ReactNode }) => (
+export const StaffOnly = ({
+  children,
+  fallback,
+}: {
+  children: ReactNode
+  fallback?: ReactNode
+}) => (
   <AuthorizedContent requireStaff={true} fallback={fallback}>
     {children}
   </AuthorizedContent>
 )
 
 // Componente específico para conteúdo apenas para não-staff
-export const NonStaffOnly = ({ children, fallback }: { children: ReactNode, fallback?: ReactNode }) => (
+export const NonStaffOnly = ({
+  children,
+  fallback,
+}: {
+  children: ReactNode
+  fallback?: ReactNode
+}) => (
   <AuthorizedContent requireNonStaff={true} fallback={fallback}>
     {children}
   </AuthorizedContent>
-) 
+)

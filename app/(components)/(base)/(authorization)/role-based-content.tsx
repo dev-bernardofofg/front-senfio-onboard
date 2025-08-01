@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { useAuthorization } from "@/hooks/use-authorization"
-import { Shield, User } from "lucide-react"
-import { ReactNode } from "react"
+import { useAuthorization } from '@/hooks/use-authorization'
+import { Shield, User } from 'lucide-react'
+import { ReactNode } from 'react'
 
 interface RoleBasedContentProps {
   staffContent?: ReactNode
@@ -13,7 +13,7 @@ interface RoleBasedContentProps {
 export const RoleBasedContent = ({
   staffContent,
   nonStaffContent,
-  fallback
+  fallback,
 }: RoleBasedContentProps) => {
   const { isStaff, isNonStaff } = useAuthorization()
 

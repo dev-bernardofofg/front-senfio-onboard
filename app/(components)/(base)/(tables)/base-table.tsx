@@ -1,9 +1,12 @@
-"use client";
+'use client'
 
-import { Loader2, Table2Icon } from "lucide-react";
-import Link from "next/link";
+import { Loader2, Table2Icon } from 'lucide-react'
+import Link from 'next/link'
 
-import { BasePagination, PaginationData } from "@/app/(components)/(base)/(show-data)/base-pagination";
+import {
+  BasePagination,
+  PaginationData,
+} from '@/app/(components)/(base)/(show-data)/base-pagination'
 import {
   Table,
   TableBody,
@@ -11,30 +14,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/table'
+import { cn } from '@/lib/utils'
 
 // Tipo de paginação baseado no PaginationData do BasePagination
-export type PaginationType = PaginationData;
+export type PaginationType = PaginationData
 
 interface Column<T> {
-  header: string;
-  accessorKey: keyof T;
-  className?: string;
-  cell?: (value: T[keyof T], item: T) => React.ReactNode;
+  header: string
+  accessorKey: keyof T
+  className?: string
+  cell?: (value: T[keyof T], item: T) => React.ReactNode
 }
 
 interface BaseTableProps<T> {
-  data: T[];
-  columns: Column<T>[];
-  actions?: (item: T) => React.ReactNode;
-  onRowClick?: (item: T) => void;
-  title?: string;
-  seeMoreLink?: string;
-  emptyMessage?: string;
-  loading?: boolean;
-  onPaginationChange?: (value: PaginationType) => void;
-  pagination?: PaginationType;
+  data: T[]
+  columns: Column<T>[]
+  actions?: (item: T) => React.ReactNode
+  onRowClick?: (item: T) => void
+  title?: string
+  seeMoreLink?: string
+  emptyMessage?: string
+  loading?: boolean
+  onPaginationChange?: (value: PaginationType) => void
+  pagination?: PaginationType
 }
 
 export interface BaseTableOptions {
@@ -51,7 +54,7 @@ export function BaseTable<T>({
   onRowClick,
   title,
   seeMoreLink,
-  emptyMessage = "Nenhum dado encontrado",
+  emptyMessage = 'Nenhum dado encontrado',
   loading = false,
   onPaginationChange,
   pagination,
@@ -90,7 +93,7 @@ export function BaseTable<T>({
           <Table>
             <TableHeader>
               <TableRow>
-                {columns.map((column) => (
+                {columns.map(column => (
                   <TableHead
                     key={String(column.accessorKey)}
                     className={column.className}
@@ -107,16 +110,16 @@ export function BaseTable<T>({
                   key={index}
                   onClick={() => onRowClick?.(item)}
                   className={cn(
-                    onRowClick && "cursor-pointer",
-                    "animate-in fade-in-0 slide-in-from-bottom-2 duration-300",
+                    onRowClick && 'cursor-pointer',
+                    'animate-in fade-in-0 slide-in-from-bottom-2 duration-300',
                     `delay-${Math.min(index * 50, 500)}`
                   )}
                   style={{
                     animationDelay: `${index * 50}ms`,
-                    animationFillMode: 'both'
+                    animationFillMode: 'both',
                   }}
                 >
-                  {columns.map((column) => (
+                  {columns.map(column => (
                     <TableCell
                       key={String(column.accessorKey)}
                       className={column.className}
@@ -138,15 +141,16 @@ export function BaseTable<T>({
             <div className="mt-4">
               <BasePagination
                 data={pagination}
-                onPageChange={(page) => {
+                onPageChange={page => {
                   if (onPaginationChange) {
                     const newPagination = {
                       ...pagination,
                       current_page: page,
-                      next_page: page < pagination.total_pages ? page + 1 : null,
+                      next_page:
+                        page < pagination.total_pages ? page + 1 : null,
                       previous_page: page > 1 ? page - 1 : null,
-                    };
-                    onPaginationChange(newPagination);
+                    }
+                    onPaginationChange(newPagination)
                   }
                 }}
               />
@@ -155,7 +159,7 @@ export function BaseTable<T>({
         </>
       )}
     </div>
-  );
+  )
 }
 
 /*

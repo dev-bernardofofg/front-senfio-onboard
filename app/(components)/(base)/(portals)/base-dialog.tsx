@@ -5,15 +5,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog'
 
 interface BaseDialogProps {
-  trigger: React.ReactNode;
-  children: React.ReactNode;
-  title: string;
-  description?: string;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  trigger: React.ReactNode
+  children: React.ReactNode
+  title: string
+  description?: string
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export const BaseDialog = ({
@@ -27,9 +27,7 @@ export const BaseDialog = ({
   if (open === undefined || onOpenChange === undefined) {
     return (
       <Dialog>
-        <DialogTrigger asChild>
-          {trigger}
-        </DialogTrigger>
+        <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="overflow-y-auto max-h-full">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -40,7 +38,7 @@ export const BaseDialog = ({
           {children}
         </DialogContent>
       </Dialog>
-    );
+    )
   }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -53,5 +51,5 @@ export const BaseDialog = ({
         {children}
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

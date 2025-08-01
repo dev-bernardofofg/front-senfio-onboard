@@ -1,17 +1,23 @@
-"use client"
+'use client'
 
-import { StaggeredFade } from "@/app/(components)/(motion)/staggered-fade"
-import { SignInForm } from "@/app/(resources)/(forms)/(auth)/sign-in.form"
-import { SignUpForm } from "@/app/(resources)/(forms)/(auth)/sign-up.form"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Lock, Shield, User } from "lucide-react"
-import { useTheme } from "next-themes"
-import Image from "next/image"
+import { StaggeredFade } from '@/app/(components)/(motion)/staggered-fade'
+import { SignInForm } from '@/app/(resources)/(forms)/(auth)/sign-in.form'
+import { SignUpForm } from '@/app/(resources)/(forms)/(auth)/sign-up.form'
+import { Badge } from '@/components/ui/badge'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Lock, Shield, User } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import Image from 'next/image'
 
 const AuthPage = () => {
-  const { forcedTheme } = useTheme();
+  const { forcedTheme } = useTheme()
 
   return (
     <div className="w-full max-w-md mx-auto p-6">
@@ -20,7 +26,11 @@ const AuthPage = () => {
           <div className="flex flex-col items-center space-y-2">
             <div className="relative w-24 h-12">
               <Image
-                src={forcedTheme === "dark" ? "/logo-s3-dark.svg" : "/logo-s3-light.svg"}
+                src={
+                  forcedTheme === 'dark'
+                    ? '/logo-s3-dark.svg'
+                    : '/logo-s3-light.svg'
+                }
                 alt="Senfio"
                 fill
                 className="object-contain"
@@ -55,7 +65,10 @@ const AuthPage = () => {
                   <User className="h-4 w-4" />
                   Entrar
                 </TabsTrigger>
-                <TabsTrigger value="register" className="flex items-center gap-2">
+                <TabsTrigger
+                  value="register"
+                  className="flex items-center gap-2"
+                >
                   <User className="h-4 w-4" />
                   Criar Conta
                 </TabsTrigger>

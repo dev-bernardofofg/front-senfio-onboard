@@ -1,10 +1,26 @@
-import { NonStaffOnly, StaffOnly } from '@/app/(components)/(base)/(authorization)/authorized-content'
+import {
+  NonStaffOnly,
+  StaffOnly,
+} from '@/app/(components)/(base)/(authorization)/authorized-content'
 import { UpsertCouponForm } from '@/app/(resources)/(forms)/(coupons)/upsert-coupom.form'
 import { FN_UTILS_DATE } from '@/app/(resources)/(helpers)/date'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, Redemption, useCreateRedemption, useDeleteCoupon } from '@/lib/generated'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import {
+  Coupon,
+  listCouponsQueryKey,
+  listRedemptionsQueryKey,
+  Redemption,
+  useCreateRedemption,
+  useDeleteCoupon,
+} from '@/lib/generated'
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -17,7 +33,6 @@ interface CupomCardProps {
 }
 
 export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
-
   const queryClient = useQueryClient()
 
   const isAvailable = coupon.available
@@ -38,16 +53,16 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
       onSuccess: () => {
         toast.success('Cupom deletado com sucesso')
         queryClient.invalidateQueries({
-          queryKey: listCouponsQueryKey()
+          queryKey: listCouponsQueryKey(),
         })
         queryClient.invalidateQueries({
-          queryKey: listRedemptionsQueryKey({})
+          queryKey: listRedemptionsQueryKey({}),
         })
       },
       onError: () => {
         toast.error('Erro ao deletar cupom')
-      }
-    }
+      },
+    },
   })
 
   const { mutate: redeemCoupon, isPending: isRedeeming } = useCreateRedemption({
@@ -56,21 +71,20 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
         toast.success('Cupom resgatado com sucesso')
 
         queryClient.invalidateQueries({
-          queryKey: listCouponsQueryKey()
+          queryKey: listCouponsQueryKey(),
         })
         queryClient.invalidateQueries({
-          queryKey: listRedemptionsQueryKey({})
+          queryKey: listRedemptionsQueryKey({}),
         })
-
       },
       onError: (error: any) => {
         toast.error(error.data.errors.non_field_errors[0])
-      }
-    }
+      },
+    },
   })
 
   return (
-    <Card key={coupon.id} className='h-full'>
+    <Card key={coupon.id} className="h-full">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
@@ -82,10 +96,14 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
             </CardDescription>
           </div>
           <Badge
-            variant={canRedeem ? "default" : "secondary"}
+            variant={canRedeem ? 'default' : 'secondary'}
             className="flex-shrink-0 text-xs"
           >
-            {canRedeem ? "Disponível" : hasReachedMaxRedemptions ? "Limite Atingido" : "Indisponível"}
+            {canRedeem
+              ? 'Disponível'
+              : hasReachedMaxRedemptions
+                ? 'Limite Atingido'
+                : 'Indisponível'}
           </Badge>
         </div>
       </CardHeader>
@@ -93,14 +111,17 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
         <div className="space-y-1.5 text-xs sm:text-sm">
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground">Máximo de resgates:</span>
-            <span className="font-medium">{coupon.max_redemptions || 'Ilimitado'}</span>
+            <span className="font-medium">
+              {coupon.max_redemptions || 'Ilimitado'}
+            </span>
           </div>
 
           <NonStaffOnly>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Seus resgates:</span>
               <span className="font-medium">
-                {userRedemptionsForThisCoupon.length} / {coupon.max_redemptions || 'Ilimitado'}
+                {userRedemptionsForThisCoupon.length} /{' '}
+                {coupon.max_redemptions || 'Ilimitado'}
               </span>
             </div>
           </NonStaffOnly>
@@ -114,22 +135,34 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
           {/* Ações específicas por tipo de usuário */}
           <div className="flex gap-1.5 mt-3">
             <StaffOnly>
-              <BaseDialog trigger={<Button size="sm" variant="outline" className="text-xs h-7 px-2">
-                <Edit className="h-3 w-3 mr-1" />
-                <span className="hidden sm:inline">Editar</span>
-              </Button>}
+              <BaseDialog
+                trigger={
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-7 px-2"
+                  >
+                    <Edit className="h-3 w-3 mr-1" />
+                    <span className="hidden sm:inline">Editar</span>
+                  </Button>
+                }
                 title="Editar Cupom"
-                children={<UpsertCouponForm coupon={coupon} />}
               >
-
+                <UpsertCouponForm coupon={coupon} />
               </BaseDialog>
               <ConfirmDialog
                 title="Excluir Cupom"
                 description="Tem certeza que deseja excluir este cupom?"
-                trigger={<Button size="sm" variant="destructive" className="text-xs h-7 px-2" disabled={isPending}>
-                  <Trash2 className="h-3 w-3 mr-1" />
-                  <span className="hidden sm:inline">Excluir</span>
-                </Button>
+                trigger={
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    className="text-xs h-7 px-2"
+                    disabled={isPending}
+                  >
+                    <Trash2 className="h-3 w-3 mr-1" />
+                    <span className="hidden sm:inline">Excluir</span>
+                  </Button>
                 }
                 onConfirm={() => deleteCoupon({ id: coupon.id })}
               />
@@ -143,7 +176,11 @@ export const CupomCard = ({ coupon, redemptions = [] }: CupomCardProps) => {
                 className="text-xs h-7 px-2"
                 onClick={() => redeemCoupon({ data: { coupon: coupon.id } })}
               >
-                {isRedeeming ? 'Resgatando...' : hasReachedMaxRedemptions ? 'Limite Atingido' : 'Resgatar'}
+                {isRedeeming
+                  ? 'Resgatando...'
+                  : hasReachedMaxRedemptions
+                    ? 'Limite Atingido'
+                    : 'Resgatar'}
               </Button>
             </NonStaffOnly>
           </div>

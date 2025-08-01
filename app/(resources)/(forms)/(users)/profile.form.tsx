@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
 import { BaseDatePicker } from '@/app/(components)/(base)/(form)/base-date-picker'
@@ -11,7 +11,11 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { ProfileDefaultValues, ProfileSchema, ProfileSchemaType } from './profile.schema'
+import {
+  ProfileDefaultValues,
+  ProfileSchema,
+  ProfileSchemaType,
+} from './profile.schema'
 
 interface ProfileFormProps {
   user?: User
@@ -92,4 +96,4 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
       </BaseForm>
     </Form>
   )
-} 
+}

@@ -1,73 +1,81 @@
-"use client";
+'use client'
 
-import { useCreateCoupon } from "@/lib/generated/hooks/useCreateCoupon";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { useCreateCoupon } from '@/lib/generated/hooks/useCreateCoupon'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
-import { BaseButton } from "@/app/(components)/(base)/(clickable)/base-button";
-import { BaseForm } from "@/app/(components)/(base)/(form)/base-form";
-import { BaseInput } from "@/app/(components)/(base)/(form)/base-input";
-import { DialogClose } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
-import { Coupon, listCouponsQueryKey, listRedemptionsQueryKey, useUpdateCoupon } from "@/lib/generated";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
-import { UpsertCouponFormData, upsertCouponSchema } from "./upsert-coupom.schema";
+import { BaseButton } from '@/app/(components)/(base)/(clickable)/base-button'
+import { BaseForm } from '@/app/(components)/(base)/(form)/base-form'
+import { BaseInput } from '@/app/(components)/(base)/(form)/base-input'
+import { DialogClose } from '@/components/ui/dialog'
+import { Form } from '@/components/ui/form'
+import {
+  Coupon,
+  listCouponsQueryKey,
+  listRedemptionsQueryKey,
+  useUpdateCoupon,
+} from '@/lib/generated'
+import { useQueryClient } from '@tanstack/react-query'
+import { useRef } from 'react'
+import {
+  UpsertCouponFormData,
+  upsertCouponSchema,
+} from './upsert-coupom.schema'
 
 interface UpsertCouponFormProps {
-  coupon?: Coupon;
+  coupon?: Coupon
 }
 
 export const UpsertCouponForm = ({ coupon }: UpsertCouponFormProps) => {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const queryClient = useQueryClient();
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const queryClient = useQueryClient()
 
   const form = useForm<UpsertCouponFormData>({
     resolver: zodResolver(upsertCouponSchema),
     defaultValues: {
-      code: coupon?.code ?? "",
-      description: coupon?.description ?? "",
+      code: coupon?.code ?? '',
+      description: coupon?.description ?? '',
       max_redemptions: coupon?.max_redemptions ?? null,
       available: coupon?.available ?? true,
     },
-  });
+  })
 
   const createCouponMutation = useCreateCoupon({
     mutation: {
       onSuccess: () => {
-        toast.success("Cupom criado com sucesso!");
-        queryClient.invalidateQueries({ queryKey: listCouponsQueryKey() });
-        queryClient.invalidateQueries({ queryKey: listRedemptionsQueryKey() });
-        closeRef.current?.click();
+        toast.success('Cupom criado com sucesso!')
+        queryClient.invalidateQueries({ queryKey: listCouponsQueryKey() })
+        queryClient.invalidateQueries({ queryKey: listRedemptionsQueryKey() })
+        closeRef.current?.click()
       },
-      onError: (error) => {
-        toast.error("Erro ao criar cupom. Tente novamente.");
+      onError: error => {
+        toast.error('Erro ao criar cupom. Tente novamente.')
       },
     },
-  });
+  })
 
   const updateCouponMutation = useUpdateCoupon({
     mutation: {
       onSuccess: () => {
-        toast.success("Cupom atualizado com sucesso!");
-        queryClient.invalidateQueries({ queryKey: listCouponsQueryKey() });
-        queryClient.invalidateQueries({ queryKey: listRedemptionsQueryKey() });
-        closeRef.current?.click();
+        toast.success('Cupom atualizado com sucesso!')
+        queryClient.invalidateQueries({ queryKey: listCouponsQueryKey() })
+        queryClient.invalidateQueries({ queryKey: listRedemptionsQueryKey() })
+        closeRef.current?.click()
       },
-      onError: (error) => {
-        toast.error("Erro ao atualizar cupom. Tente novamente.");
+      onError: error => {
+        toast.error('Erro ao atualizar cupom. Tente novamente.')
       },
     },
-  });
+  })
 
   const onSubmit = (data: UpsertCouponFormData) => {
     if (coupon) {
-      updateCouponMutation.mutate({ data, id: coupon.id });
+      updateCouponMutation.mutate({ data, id: coupon.id })
     } else {
-      createCouponMutation.mutate({ data });
+      createCouponMutation.mutate({ data })
     }
-  };
+  }
 
   return (
     <>
@@ -101,14 +109,16 @@ export const UpsertCouponForm = ({ coupon }: UpsertCouponFormProps) => {
 
           <BaseButton
             type="submit"
-            isLoading={createCouponMutation.isPending || updateCouponMutation.isPending}
-            loadingText={coupon ? "Salvando cupom..." : "Criando cupom..."}
-            clickAction={coupon ? "edit" : "create"}
+            isLoading={
+              createCouponMutation.isPending || updateCouponMutation.isPending
+            }
+            loadingText={coupon ? 'Salvando cupom...' : 'Criando cupom...'}
+            clickAction={coupon ? 'edit' : 'create'}
           >
-            {coupon ? "Salvar Cupom" : "Criar Cupom"}
+            {coupon ? 'Salvar Cupom' : 'Criar Cupom'}
           </BaseButton>
         </BaseForm>
       </Form>
     </>
-  );
-};
+  )
+}
